@@ -77,15 +77,14 @@ jobs:
     - id: read_map
       name: Read map
       run: |
-        map="{ ${{ env.ENV_PREFIX }}: { } }"
+        map="{ '${{ env.ENV_PREFIX }}': { 'iac_bicep': '', 'src_db': '', 'src_api': '' } }"
         if [ '${{ steps.get_map.outcome }}' == 'success' ]; then
           map=$(<deployment_map/deployment_map.json)
         fi
         echo "map=$map" >> $GITHUB_OUTPUT
 
     # Deploy iac/bicep
-    - name: Deployable iac/bicep - check for changes (if oldsha found)
-      if: steps.get_map.outcome == 'success'
+    - name: Deployable iac/bicep - check for changes
       run: |
         echo "oldsha: ${{ fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].iac_bicep }}"
         echo "newsha: ${{ env.SHA_IAC_BICEP }}"
