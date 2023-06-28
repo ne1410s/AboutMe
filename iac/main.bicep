@@ -76,16 +76,16 @@ module sqlServerDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/database/sql
   }
 }
 
-module sqlServerDbDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/database/sqldb:v1' = {
-  name: 'sqlServerDbDeploy'
-  params: {
-    databaseName: 'AboutDb'
-    useFree: false
-    sqlServerResourceName: sqlServerDeploy.outputs.resourceName
-    location: location
-    tags: tags
-  }
-}
+// module sqlServerDbDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/database/sqldb:v1' = {
+//   name: 'sqlServerDbDeploy'
+//   params: {
+//     databaseName: 'AboutDb'
+//     useFree: false
+//     sqlServerResourceName: sqlServerDeploy.outputs.resourceName
+//     location: location
+//     tags: tags
+//   }
+// }
 
 module appServicePlanDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/app-service-plan:v1' = {
   name: 'appServicePlanDeploy'
