@@ -6,6 +6,8 @@ on:
     paths:
     - iac/**
     - source/**
+  # the following allows adhoc runs
+  workflow_dispatch:
 jobs:
   call_test:
     uses: ./.github/workflows/test.yml
