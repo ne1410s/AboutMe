@@ -22,7 +22,7 @@ public static class TracingStartupExtensions
         IConfiguration config)
     {
         config.MustExist();
-        var connection = config["Dynamic:Global:Connections:AppInsights"];
+        var connection = config["ConnectionStrings:AppInsights"];
         return services.AddApplicationInsightsTelemetry(o =>
         {
             if (!string.IsNullOrWhiteSpace(connection))

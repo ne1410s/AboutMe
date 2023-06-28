@@ -6,8 +6,6 @@ namespace AboutMe.Api;
 
 using System.Diagnostics.CodeAnalysis;
 using AboutMe.Api.Features.Common;
-using AboutMe.Api.Features.Item;
-using AboutMe.Api.Features.Recipe;
 
 /// <summary>
 /// The program. Exposing the type serves to support framework testing.
@@ -29,28 +27,22 @@ public sealed class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         IConfiguration config = builder.Configuration;
-        builder.AddAppConfigFeature();
-        builder.Services.AddAuthFeature(config);
         builder.Services.AddControllers();
         builder.Services.AddCorsFeature(config);
         builder.Services.AddTracingFeature(config);
         builder.Services.AddSwaggerFeature();
         builder.Services.AddFluentErrorsFeature();
-        builder.Services.AddDatabaseFeature(config);
         builder.Services.AddSharedServices();
-        builder.Services.AddItemFeature();
-        builder.Services.AddRecipeFeature();
-        builder.Services.AddHealthChecksFeature(config);
+        builder.Services.AddHealthChecksFeature();
 
         var app = builder.Build();
-        app.UseAppConfigFeature(config);
         app.UseSwaggerFeature();
         app.UseHttpsRedirection();
         app.UseCorsFeature();
-        app.UseAuthFeature();
         app.UseFluentErrorsFeature();
-        app.MapControllers().RequireAuthorization();
+        app.MapControllers();
         app.UseHealthChecksFeature();
+        app.UseHsts();
         app.Run();
     }
 }

@@ -6,8 +6,6 @@ namespace AboutMe.Api.Features.Common;
 
 using System.Reflection;
 using FluentErrors.Extensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.OpenApi.Models;
 
 /// <summary>
 /// Extensions for configuring Swagger at startup.
@@ -26,30 +24,9 @@ public static class SwaggerStartupExtensions
             {
                 var asmName = Assembly.GetExecutingAssembly().GetName();
                 var version = "v" + asmName.Version!.ToString(1);
-                var jwtSecurityScheme = new OpenApiSecurityScheme
-                {
-                    BearerFormat = "JWT",
-                    Name = "JWT Authentication",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.Http,
-                    Scheme = JwtBearerDefaults.AuthenticationScheme,
-                    Description = "Put **_ONLY_** your JWT Bearer token on textbox below!",
-                    Reference = new OpenApiReference
-                    {
-                        Id = JwtBearerDefaults.AuthenticationScheme,
-                        Type = ReferenceType.SecurityScheme,
-                    },
-                };
-
-                c.SwaggerDoc(version, new() { Title = asmName.Name, Version = version });
-                c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    { jwtSecurityScheme, Array.Empty<string>() },
-                });
-
                 var xmlFile = asmName.Name + ".xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.SwaggerDoc(version, new() { Title = asmName.Name, Version = version });
                 c.IncludeXmlComments(xmlPath);
             });
 

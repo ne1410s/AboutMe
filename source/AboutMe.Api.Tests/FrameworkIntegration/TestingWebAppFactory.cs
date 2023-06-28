@@ -5,11 +5,9 @@
 namespace AboutMe.Api.tests.FrameworkIntegration;
 
 using System.Security.Claims;
-using AboutMe.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,14 +18,9 @@ public class TestingWebAppFactory : WebApplicationFactory<Program>
     private readonly ClaimsIdentity mockUser;
 
     public TestingWebAppFactory(
-        string? connectionId = null,
         Action<IServiceCollection>? onConfiguringServices = null,
         ClaimsIdentity? mockUser = null)
     {
-        var optsBuilder = new DbContextOptionsBuilder<MeContext>();
-        optsBuilder.UseInMemoryDatabase(connectionId ?? Guid.NewGuid().ToString());
-        this.Db = new MeContext(optsBuilder.Options);
-
         this.onConfiguringServices = onConfiguringServices;
         this.mockUser = mockUser ?? new ClaimsIdentity(new Claim[]
         {
@@ -36,8 +29,6 @@ public class TestingWebAppFactory : WebApplicationFactory<Program>
             new Claim(ClaimTypes.Surname, "Test"),
         });
     }
-
-    public MeContext Db { get; }
 
     protected override IHost CreateHost(IHostBuilder builder)
     {
@@ -55,10 +46,6 @@ public class TestingWebAppFactory : WebApplicationFactory<Program>
         builder.UseEnvironment("test");
         builder.ConfigureServices(services =>
         {
-            // Remove ef database connections
-            RemoveServices<DbContextOptions>(services);
-            services.AddSingleton(_ => this.Db);
-
             // Disable authz
             RemoveServices<IAuthorizationHandler>(services);
             services.AddSingleton<IAuthorizationHandler>(_ => new Impersonator(this.mockUser));
@@ -69,8 +56,7 @@ public class TestingWebAppFactory : WebApplicationFactory<Program>
 
     private static void RemoveServices<T>(IServiceCollection services)
     {
-        var removeList = services.Where(d => d.ServiceType == typeof(T)).ToList();
-        foreach (var descriptor in removeList)
+        foreach (var descriptor in services.Where(d => d.ServiceType == typeof(T)).ToList())
         {
             services.Remove(descriptor);
         }

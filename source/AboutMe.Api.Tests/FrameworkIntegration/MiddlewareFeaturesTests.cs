@@ -4,10 +4,6 @@
 
 namespace AboutMe.Api.tests.FrameworkIntegration;
 
-using System.Net;
-using System.Net.Http.Json;
-using FluentErrors.Api.Models;
-
 /// <summary>
 /// Tests for miscellaneous http middleware.
 /// </summary>
@@ -17,7 +13,7 @@ public class MiddlewareFeaturesTests
 
     public MiddlewareFeaturesTests()
     {
-        var appFactory = new TestingWebAppFactory(nameof(MiddlewareFeaturesTests));
+        var appFactory = new TestingWebAppFactory();
         this.client = appFactory.CreateClient();
     }
 
@@ -25,29 +21,12 @@ public class MiddlewareFeaturesTests
     public async Task UnsecureHttp_WhenRequested_HandledAsExpected()
     {
         // Arrange
-        const string serviceUrl = "http://localhost:80/forecast";
+        const string serviceUrl = "http://localhost:80/forecasts";
 
         // Act
         var response = await this.client.GetAsync(serviceUrl);
 
         // Assert
         response.RequestMessage!.RequestUri!.Scheme.Should().Be("https");
-    }
-
-    [Fact]
-    public async Task ModelItem_WhenInvalid_ReturnsExpected()
-    {
-        // Arrange
-        const string serviceUrl = "items";
-        var request = new { name = "test", specificFat = "hello" };
-        var expected = new HttpErrorBody("StaticValidationException", "Invalid instance received.");
-
-        // Act
-        var response = await this.client.PostAsJsonAsync(serviceUrl, request);
-        var result = await response.Content.ReadFromJsonAsync<HttpErrorBody>();
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        result.Should().BeEquivalentTo(expected, x => x.Excluding(d => d.Errors));
     }
 }
