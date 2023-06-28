@@ -1,20 +1,14 @@
 // -----------------------------------------------------------------------------
 // Specific Parameters
 // -----------------------------------------------------------------------------
-@description('The object id of the AAD group where the engineers live.')
-@minLength(36)
-@maxLength(36)
-param engineersGroupId string
-
-@description('The object id of the AAD group where the admins live.')
-@minLength(36)
-@maxLength(36)
-param adminsGroupId string
-
 @description('Sql admin password.')
 @minLength(36)
 @secure()
 param sqlAdminPass string
+
+@secure()
+@description('The app config endpoint. If not supplied, uri is built for the "shared" workload.')
+param appConfigEndpoint string = ''
 
 @description('The resource location.')
 @minLength(3)
@@ -35,8 +29,17 @@ var locationShort = split(resourceGroup().name, '-')[3]
 @description('Amalgam of the workload and the (short) location name.')
 var suffix = length('${workload}-${locationShort}') < 3 ? 'xyz' : '${workload}-${locationShort}'
 
+@description('Amalgam of the shared workload and the (short) location name.')
+var sharedSuffix = 'shared-${locationShort}'
+
 @description('The resource tags.')
 var tags = resourceGroup().tags
+
+@description('The final app config endpoint to use.')
+var finalAppConfigEndpoint = empty(appConfigEndpoint) ? 'https://${prefix}-appconfig-${sharedSuffix}.azconfig.io' : appConfigEndpoint
+
+@description('The name of shared resource group.')
+var sharedRgName = '${prefix}-rg-${sharedSuffix}'
 
 // -----------------------------------------------------------------------------
 // Resources
@@ -73,44 +76,16 @@ module sqlServerDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/database/sql
   }
 }
 
-module sqlServerDbDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/database/sqldb:v1' = {
-  name: 'sqlServerDbDeploy'
-  params: {
-    databaseName: 'AboutDb'
-    sqlServerResourceName: sqlServerDeploy.outputs.resourceName
-    location: location
-    tags: tags
-  }
-}
-
-module appConfigDeploy_Open 'br:devacrsharedweu.azurecr.io/bicep/modules/integration/app-config:v1' = {
-  name: 'appConfigDeploy_Open'
-  params: {
-    disableLocalAccess: false // temporary; to make the following key updates work from scm..
-    prefix: prefix
-    suffix: suffix
-    location: location
-    tags: tags
-  }
-}
-
-module appConfigEngineersAccessDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/security/sp-assign-rg-role:v1' = {
-  name: 'appConfigEngineersAccessDeploy'
-  params: {
-    role: 'App Configuration Data Reader'
-    principalId: engineersGroupId
-    principalType: 'Group'
-  }
-}
-
-module appConfigAdminsAccessDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/security/sp-assign-rg-role:v1' = {
-  name: 'appConfigAdminsAccessDeploy'
-  params: {
-    role: 'App Configuration Data Owner'
-    principalId: adminsGroupId
-    principalType: 'Group'
-  }
-}
+// module sqlServerDbDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/database/sqldb:v1' = {
+//   name: 'sqlServerDbDeploy'
+//   params: {
+//     databaseName: 'AboutDb'
+//     useFree: false
+//     sqlServerResourceName: sqlServerDeploy.outputs.resourceName
+//     location: location
+//     tags: tags
+//   }
+// }
 
 module appServicePlanDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/app-service-plan:v1' = {
   name: 'appServicePlanDeploy'
@@ -131,7 +106,7 @@ module appServiceDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/app-ser
       { name: 'ASPNETCORE_ENVIRONMENT', value: prefix }
     ]
     connectionStrings: [
-      { name: 'AppConfig', value: appConfigDeploy_Open.outputs.endpoint }
+      { name: 'AppConfig', value: finalAppConfigEndpoint }
     ]
     location: location
     prefix: prefix
@@ -140,12 +115,25 @@ module appServiceDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/app-ser
   }
 }
 
+module appConfigDeploy_Open 'br:devacrsharedweu.azurecr.io/bicep/modules/integration/app-config:v1' = {
+  name: 'appConfigDeploy_Open'
+  scope: resourceGroup(sharedRgName)
+  params: {
+    disableLocalAccess: false // temporary; to make the following key updates work from scm..
+    prefix: prefix
+    suffix: suffix
+    location: location
+    tags: tags
+  }
+}
+
 module appConfigEntry1 'br:devacrsharedweu.azurecr.io/bicep/modules/integration/app-config-entry:v1' = {
   name: 'appConfigEntry1'
+  scope: resourceGroup(sharedRgName)
   dependsOn: [appConfigDeploy_Open]
   params: {
     appConfigResourceName: appConfigDeploy_Open.outputs.resourceName
-    name: 'Dynamic:Global:Apis:Nutrition'
+    name: 'Dynamic:Global:Apis:AboutMe'
     value: appServiceDeploy.outputs.appUrl
     label: prefix
   }
@@ -153,6 +141,7 @@ module appConfigEntry1 'br:devacrsharedweu.azurecr.io/bicep/modules/integration/
 
 module appConfigDeploy_Close 'br:devacrsharedweu.azurecr.io/bicep/modules/integration/app-config:v1' = {
   name: 'appConfigDeploy_Close'
+  scope: resourceGroup(sharedRgName)
   dependsOn: [appConfigEntry1]
   params: {
     disableLocalAccess: true // seal it back up

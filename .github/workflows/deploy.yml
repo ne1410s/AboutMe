@@ -97,8 +97,6 @@ jobs:
         resourceGroupName: ${{ env.ENV_PREFIX }}-rg-${{ secrets.AZURE_WORKLOAD }}-${{ secrets.AZURE_RG_LOC }}
         template: extract/iac/bicep/main.bicep
         parameters:
-          engineersGroupId=${{ secrets.AZURE_ENG_ID }}
-          adminsGroupId=${{ secrets.AZURE_ADMINS_ID }}
           sqlAdminPass=${{ secrets.AZURE_SQL_ADM_PW }}
       
     - name: Deployable iac/bicep - group assignments
