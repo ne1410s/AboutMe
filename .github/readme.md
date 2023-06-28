@@ -88,7 +88,12 @@ if ( !$scmSpId ) { `
 } `
 $rgName="$cloudenv-rg-$workload-$locationShort"; `
 $rgId=az group create -l $location -n $rgName --tags workload=$workload env=$cloudenv --query id -o tsv; `
+$sharedRgId=az group show -g "$($cloudenv)-rg-shared-weu" --query id -o tsv; `
+$acrId=az acr show -n "$($cloudenv)acrsharedweu" -g "$($cloudenv)-rg-shared-weu" --query id -o tsv; `
 $scmRgContrib=az role assignment create --assignee-object-id $scmSpId --assignee-principal-type ServicePrincipal --role contributor --scope $rgId --only-show-errors; `
+$scmRgRoles=az role assignment create --assignee-object-id $scmSpId --assignee-principal-type ServicePrincipal --role 18d7d88d-d35e-4fb5-a5c3-7773c20a72d9 --scope $rgId --only-show-errors; `
+$scmSharedRoles=az role assignment create --assignee-object-id $scmSpId --assignee-principal-type ServicePrincipal --role 18d7d88d-d35e-4fb5-a5c3-7773c20a72d9 --scope $sharedRgId --only-show-errors; `
+$scmAcrPuller=az role assignment create --assignee-object-id $scmSpId --assignee-principal-type ServicePrincipal --role acrpull --scope $acrId --only-show-errors; `
 $engAdId=az ad group create --display-name engineers --mail-nickname engineers --only-show-errors --query id -o tsv; `
 $adminsAdId=az ad group create --display-name admins --mail-nickname admins --only-show-errors --query id -o tsv; `
 
