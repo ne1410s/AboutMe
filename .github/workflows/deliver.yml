@@ -6,8 +6,6 @@ on:
     paths:
     - iac/**
     - source/**
-  # testing purposes: shouldnt need workflow_dispatch at all! :D
-  workflow_dispatch:
 jobs:
   call_test:
     uses: ./.github/workflows/test.yml
@@ -25,23 +23,19 @@ jobs:
     - name: Add local packages source
       env:
         READ_REPO_PACKAGES: ${{ secrets.READ_REPO_PACKAGES }}
-      run: dotnet nuget add source --name libravado --username libravado --password "${{ env.READ_REPO_PACKAGES }}" --store-password-in-clear-text "https://nuget.pkg.github.com/libravado/index.json"
-    - name: Add ne1410s packages source
-      env:
-        READ_NE1410S_PACKAGES: ${{ secrets.READ_NE1410S_PACKAGES }}
-      run: dotnet nuget add source --name ne1410s --username ne1410s --password "${{ env.READ_NE1410S_PACKAGES }}" --store-password-in-clear-text "https://nuget.pkg.github.com/ne1410s/index.json"
+      run: dotnet nuget add source --name ne1410s --username ne1410s --password "${{ env.READ_REPO_PACKAGES }}" --store-password-in-clear-text "https://nuget.pkg.github.com/ne1410s/index.json"
     - name: Restore tools
       working-directory: ./source
       run: dotnet tool restore
-    - name: Publish source (nutrition api)
-      run: dotnet build ./source/nutrition.api -c Release -o '${{ runner.temp }}/nutrition_api'
-    - name: Generate source archive (nutrition api)
-      run: mkdir -p ./drop/deliverable/source && tar cfz $_/nutrition_api.tar.gz -C '${{ runner.temp }}/nutrition_api' .
-    - name: Create db migrations bundle (nutrition db)
+    - name: Publish source (api)
+      run: dotnet build ./source/AboutMe.Api -c Release -o '${{ runner.temp }}/api'
+    - name: Generate source archive (api)
+      run: mkdir -p ./drop/deliverable/source && tar cfz $_/api.tar.gz -C '${{ runner.temp }}/api' .
+    - name: Create db migrations bundle (db)
       working-directory: ./source
-      run: mkdir -p '${{ runner.temp }}/nutrition_db' && dotnet ef migrations bundle -p nutrition.data -s nutrition.api -o $_/efbundle
-    - name: Generate db archive (nutrition db)
-      run: mkdir -p ./drop/deliverable/source && tar cfz $_/nutrition_db.tar.gz -C '${{ runner.temp }}/nutrition_db' .
+      run: mkdir -p '${{ runner.temp }}/db' && dotnet ef migrations bundle -p AboutMe.Data -s AboutMe.Api -o $_/efbundle
+    - name: Generate db archive (db)
+      run: mkdir -p ./drop/deliverable/source && tar cfz $_/db.tar.gz -C '${{ runner.temp }}/db' .
     - name: Upload deliverables
       uses: actions/upload-artifact@v3
       with:

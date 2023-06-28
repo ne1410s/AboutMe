@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Me.Api": {
+    "AboutMe.Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
