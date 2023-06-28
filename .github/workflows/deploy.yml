@@ -95,25 +95,22 @@ jobs:
       with:
         subscriptionId: ${{ secrets.AZURE_SUB_ID }}
         resourceGroupName: ${{ env.ENV_PREFIX }}-rg-${{ secrets.AZURE_WORKLOAD }}-${{ secrets.AZURE_RG_LOC }}
-        template: extract/iac/bicep/main.bicep
-        parameters:
-          sqlAdminPass=${{ secrets.AZURE_SQL_ADM_PW }}
-      
+        template: extract/iac/bicep/main.bicep     
     - name: Deployable iac/bicep - group assignments
       if: steps.deploy_iac.outcome == 'success'
       run: echo "appService principalId - ${{ steps.deploy_iac.outputs.appServicePrincipalId }}"
 
-    # Deploy source/db
-    - name: Deployable source/db - check for changes
-      run: |
-        echo "oldsha: ${{ fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].src_db }}"
-        echo "newsha: ${{ env.SHA_SRC_DB }}"
-    - name: Deployable source/db - run ef bundle (if changed)
-      id: run_bundle
-      if: fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].src_db != env.SHA_SRC_DB
-      run: |
-        cd extract/source/db
-        ./efbundle --connection "Server=dev-sql-about-weu.database.windows.net;Initial Catalog=AboutDb;Authentication=Active Directory Default;"
+    # # Deploy source/db
+    # - name: Deployable source/db - check for changes
+    #   run: |
+    #     echo "oldsha: ${{ fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].src_db }}"
+    #     echo "newsha: ${{ env.SHA_SRC_DB }}"
+    # - name: Deployable source/db - run ef bundle (if changed)
+    #   id: run_bundle
+    #   if: fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].src_db != env.SHA_SRC_DB
+    #   run: |
+    #     cd extract/source/db
+    #     ./efbundle --connection "Server=dev-sql-about-weu.database.windows.net;Initial Catalog=AboutDb;Authentication=Active Directory Default;"
 
     # Deploy source/api
     - name: Deployable source/api - check for changes
