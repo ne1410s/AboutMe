@@ -77,7 +77,7 @@ jobs:
     - id: read_map
       name: Read map
       run: |
-        map="{ '${{ env.ENV_PREFIX }}': { 'iac_bicep': '', 'src_db': '', 'src_api': '' } }"
+        map="{ '${{ env.ENV_PREFIX }}': {} }"
         if [ '${{ steps.get_map.outcome }}' == 'success' ]; then
           map=$(<deployment_map/deployment_map.json)
         fi
