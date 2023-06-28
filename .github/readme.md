@@ -64,3 +64,60 @@ Additionally, to re-use the PAT for local workstation development (to pull in th
   </packageSourceCredentials>
 </configuration>
 ```
+
+## Initial Setup
+
+### Run this script
+```powershell
+
+$subId=az account list --all --query "[?starts_with(name, 'Paul Jones VS Pro')].{id:id}" -o tsv; `
+az account set -s $subId; `
+
+$cloudenv="dev"; `
+$workload="about"; `
+$location="westeurope"; `
+$locationShort="weu"; `
+
+$scmSpName="gh_$workload"; `
+$scmSpId=az ad sp list --disp $scmSpName --only-show-errors --query '[].id' -o tsv; `
+$scmCreds=""; `
+if ( !$scmSpId ) { `
+  $credsMap="{clientId:appId, clientSecret:password, subscriptionId: '$subId', tenantId:tenant}"; `
+  $scmCreds=az ad sp create-for-rbac --name $scmSpName --only-show-errors --query $credsMap; `
+  $scmSpId=az ad sp list --disp $scmSpName --only-show-errors --query '[].id' -o tsv; `
+} `
+$rgName="$cloudenv-rg-$workload-$locationShort"; `
+$rgId=az group create -l $location -n $rgName --tags workload=$workload env=$cloudenv --query id -o tsv; `
+$scmRgContrib=az role assignment create --assignee-object-id $scmSpId --assignee-principal-type ServicePrincipal --role contributor --scope $rgId --only-show-errors; `
+$engAdId=az ad group create --display-name engineers --mail-nickname engineers --only-show-errors --query id -o tsv; `
+$adminsAdId=az ad group create --display-name admins --mail-nickname admins --only-show-errors --query id -o tsv; `
+
+clear; `
+echo "--------------------------------------------------------------------------------"; `
+echo "AZURE_WORKLOAD:   $workload"; `
+echo "AZURE_RG_LOC:     $locationShort"; `
+echo "AZURE_ENG_ID:     $engAdId"; `
+echo "AZURE_ADMINS_ID:  $adminsAdId"; `
+echo "AZURE_SUB_ID:     $subId"; `
+echo "AZURE_SCM_ID:     $scmSpId"; `
+echo "AZURE_SQL_ADM_PW: GENERATE SMTH"; `
+if ( $scmCreds ) { echo "AZURE_SCM_CREDS:" $scmCreds; } `
+echo "--------------------------------------------------------------------------------"; `
+ 
+```
+
+## To connect to SQL via a managed identity, need to run:
+
+```sql
+-- NB: Must sign in with AAD, and switch to appropriate db first!
+CREATE USER [<identity-name>] FROM EXTERNAL PROVIDER;
+ALTER ROLE db_datareader ADD MEMBER [<identity-name>];
+ALTER ROLE db_datawriter ADD MEMBER [<identity-name>];
+-- The following is only necessary for modifying schema (e.g. SCM SP running ef migrations bundle)
+--ALTER ROLE db_ddladmin ADD MEMBER [<identity-name>];
+GO
+```
+
+*The <identity-name> can be the name of the Azure App Service (e.g. direct managed identity),
+or alternatively the display name of an AAD group, if that's how you prefer to roll..
+
