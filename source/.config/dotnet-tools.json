@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "dotnet-ef": {
+      "version": "7.0.8",
+      "commands": [
+        "dotnet-ef"
+      ]
+    },
+    "dotnet-reportgenerator-globaltool": {
+      "version": "5.1.22",
+      "commands": [
+        "reportgenerator"
+      ]
+    },
+    "dotnet-stryker": {
+      "version": "3.5.0",
+      "commands": [
+        "dotnet-stryker"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+name: deliver
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - iac/**
+    - source/**
+jobs:
+  call_test:
+    uses: ./.github/workflows/test.yml
+    secrets: inherit
+  deliver:
+    needs: call_test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Generate iac archive (bicep)
+      run: mkdir -p ./drop/deliverable/iac && tar cfz $_/bicep.tar.gz -C ./iac .
+    - uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+    - name: Add local packages source
+      env:
+        READ_REPO_PACKAGES: ${{ secrets.READ_REPO_PACKAGES }}
+      run: dotnet nuget add source --name ne1410s --username ne1410s --password "${{ env.READ_REPO_PACKAGES }}" --store-password-in-clear-text "https://nuget.pkg.github.com/ne1410s/index.json"
+    - name: Restore tools
+      working-directory: ./source
+      run: dotnet tool restore
+    - name: Publish source (api)
+      run: dotnet build ./source/AboutMe.Api -c Release -o '${{ runner.temp }}/api'
+    - name: Generate source archive (api)
+      run: mkdir -p ./drop/deliverable/source && tar cfz $_/api.tar.gz -C '${{ runner.temp }}/api' .
+    - name: Create db migrations bundle (db)
+      working-directory: ./source
+      run: mkdir -p '${{ runner.temp }}/db' && dotnet ef migrations bundle -p AboutMe.Data -s AboutMe.Api -o $_/efbundle
+    - name: Generate db archive (db)
+      run: mkdir -p ./drop/deliverable/source && tar cfz $_/db.tar.gz -C '${{ runner.temp }}/db' .
+    - name: Upload deliverables
+      uses: actions/upload-artifact@v3
+      with:
+        name: delivery
+        path: ${{ github.workspace }}/drop/deliverable
+  call_deploy:
+    needs: deliver
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit
+    with:
+      ci_call: true

@@ -1,0 +1,19 @@
+{
+  "stryker-config": {
+    "mutate": [
+      "!**/*.Api/Features/Common/*StartupExtensions.cs",
+      "!**/*.Data/Migrations/*.cs",
+      "!**/*.Data/EntityConfig/*EntityConfig.cs",
+      "!**/*.Data/*Context.cs"
+    ],
+    "ignore-methods": [
+      "builder.Services.Add*Feature",
+      "app.Use*Feature"
+    ],
+    "thresholds": {
+      "high": 100,
+      "low": 100,
+      "break": 100
+    }
+  }
+}

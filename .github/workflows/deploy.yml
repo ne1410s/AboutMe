@@ -1,0 +1,155 @@
+name: deploy
+on:
+  workflow_call:
+    inputs:
+      ci_call:
+        type: boolean
+        required: true
+  workflow_dispatch:
+    inputs:
+      delivery:
+        description: Delivery ref no.
+        type: number
+        required: true
+      environment:
+        description: Environment prefix
+        type: string
+        required: true
+env:
+  ENV_PREFIX: ${{ inputs.ci_call != true && inputs.environment || secrets.AZURE_CI_PREFIX }}
+  MAP_NAME: ${{ inputs.ci_call != true && 'deployment_map' || 'deployment_map_ci' }}
+jobs:
+  check_delivery:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Retrieve catalog delivery
+      if: inputs.ci_call != true
+      # https://github.com/dawidd6/action-download-artifact
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        workflow: deliver.yml
+        branch: main
+        run_number: ${{ inputs.delivery }}
+        name: delivery
+        path: deliverable
+    - name: Re-up delivery from catalog -> current
+      if: inputs.ci_call != true
+      uses: actions/upload-artifact@v3
+      with:
+        name: delivery
+        path: deliverable
+  deploy:
+    needs: check_delivery
+    runs-on: ubuntu-latest
+    steps:
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_SCM_CREDS }}
+    - name: Upgrade AZ Bicep
+      run: |
+        az config set bicep.use_binary_from_path=false
+        az bicep upgrade
+    - name: Get deliverables
+      uses: actions/download-artifact@v3
+      with:
+        name: delivery
+        path: deliverable
+    - name: Extract archives 4 SHAs
+      run: |
+        mkdir -p extract/iac/bicep && tar xfz deliverable/iac/bicep.tar.gz -C $_
+        mkdir -p extract/source/api && tar xfz deliverable/source/api.tar.gz -C $_
+        mkdir -p extract/source/db && tar xfz deliverable/source/db.tar.gz -C $_
+        echo SHA_IAC_BICEP=$(sha256sum <(find ./extract/iac/bicep -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
+        echo SHA_SRC_API=$(sha256sum <(find ./extract/source/api -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
+        echo SHA_SRC_DB=$(sha256sum <(find ./extract/source/db -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
+    - id: get_map
+      name: Get map
+      continue-on-error: true
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        workflow: ${{ inputs.ci_call != true && 'deploy.yml' || 'deliver.yml' }}
+        workflow_conclusion: success
+        branch: main
+        name: ${{ env.MAP_NAME }}
+        path: deployment_map
+    - id: read_map
+      name: Read map
+      run: |
+        map="{ ${{ env.ENV_PREFIX }}: { } }"
+        if [ '${{ steps.get_map.outcome }}' == 'success' ]; then
+          map=$(<deployment_map/deployment_map.json)
+        fi
+        echo "map=$map" >> $GITHUB_OUTPUT
+
+    # Deploy iac/bicep
+    - name: Deployable iac/bicep - check for changes
+      run: |
+        echo "oldsha: ${{ fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].iac_bicep }}"
+        echo "newsha: ${{ env.SHA_IAC_BICEP }}"
+    - name: Deployable iac/bicep - deploy (if changed)
+      id: deploy_iac
+      if: fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].iac_bicep != env.SHA_IAC_BICEP
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUB_ID }}
+        resourceGroupName: ${{ env.ENV_PREFIX }}-rg-${{ secrets.AZURE_WORKLOAD }}-${{ secrets.AZURE_RG_LOC }}
+        template: extract/iac/bicep/main.bicep
+        parameters:
+          engineersGroupId=${{ secrets.AZURE_ENG_ID }}
+          adminsGroupId=${{ secrets.AZURE_ADMINS_ID }}
+          sqlAdminPass=${{ secrets.AZURE_SQL_ADM_PW }}
+      
+    - name: Deployable iac/bicep - group assignments
+      if: steps.deploy_iac.outcome == 'success'
+      run: echo "appService principalId - ${{ steps.deploy_iac.outputs.appServicePrincipalId }}"
+
+    # Deploy source/db
+    - name: Deployable source/db - check for changes
+      run: |
+        echo "oldsha: ${{ fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].src_db }}"
+        echo "newsha: ${{ env.SHA_SRC_DB }}"
+    - name: Deployable source/db - run ef bundle (if changed)
+      id: run_bundle
+      if: fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].src_db != env.SHA_SRC_DB
+      run: |
+        cd extract/source/db
+        ./efbundle --connection "Server=dev-sql-about-weu.database.windows.net;Initial Catalog=AboutDb;Authentication=Active Directory Default;"
+
+    # Deploy source/api
+    - name: Deployable source/api - check for changes
+      run: |
+        echo "oldsha: ${{ fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].src_api }}"
+        echo "newsha: ${{ env.SHA_SRC_API }}"
+    - name: Deployable source/api - get publish profile (if changed)
+      id: download_profile
+      if: fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].src_api != env.SHA_SRC_API
+      run: |
+        pubProfileXml=$(az webapp deployment list-publishing-profiles -g ${{ env.ENV_PREFIX }}-rg-${{ secrets.AZURE_WORKLOAD }}-${{ secrets.AZURE_RG_LOC }} -n "${{ env.ENV_PREFIX }}-app-${{ secrets.AZURE_WORKLOAD }}-${{ secrets.AZURE_RG_LOC }}" --xml)
+        echo "::add-mask::$pubProfileXml"
+        echo PUB_PROFILE_XML=$pubProfileXml >> $GITHUB_ENV
+    - name: Deployable source/api - publish (if changed)
+      if: steps.download_profile.outcome == 'success'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.ENV_PREFIX }}-app-${{ secrets.AZURE_WORKLOAD }}-${{ secrets.AZURE_RG_LOC }}
+        package: extract/source/api
+        publish-profile: ${{ env.PUB_PROFILE_XML }}
+
+    - name: Merge deployment map
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const merged = { ...${{ steps.read_map.outputs.map }}, ${{ env.ENV_PREFIX }}: {
+            'iac_bicep': '${{ env.SHA_IAC_BICEP }}',
+            'src_api': '${{ env.SHA_SRC_API }}',
+            'src_db': '${{ env.SHA_SRC_DB }}'
+          }};
+          fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/deployment_map.json`, Buffer.from(JSON.stringify(merged)));
+    - name: Upload deployment map
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ env.MAP_NAME }}
+        path: deployment_map.json 
