@@ -100,7 +100,8 @@ echo "AZURE_ENG_ID:     $engAdId"; `
 echo "AZURE_ADMINS_ID:  $adminsAdId"; `
 echo "AZURE_SUB_ID:     $subId"; `
 echo "AZURE_SCM_ID:     $scmSpId"; `
-echo "AZURE_SQL_ADM_PW: GENERATE SMTH"; `
+echo "AZURE_SQL_ADM_PW: <GENERATE SMTH>"; `
+echo "AZURE_CI_PREFIX:  <e.g. dev>"; `
 if ( $scmCreds ) { echo "AZURE_SCM_CREDS:" $scmCreds; } `
 echo "--------------------------------------------------------------------------------"; `
  
