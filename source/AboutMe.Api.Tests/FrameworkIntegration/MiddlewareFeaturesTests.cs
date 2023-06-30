@@ -2,7 +2,7 @@
 // Copyright (c) ne1410s. All rights reserved.
 // </copyright>
 
-namespace AboutMe.Api.tests.FrameworkIntegration;
+namespace AboutMe.Api.Tests.FrameworkIntegration;
 
 /// <summary>
 /// Tests for miscellaneous http middleware.
@@ -21,7 +21,7 @@ public class MiddlewareFeaturesTests
     public async Task UnsecureHttp_WhenRequested_HandledAsExpected()
     {
         // Arrange
-        const string serviceUrl = "http://localhost:80/forecasts";
+        const string serviceUrl = "http://localhost:8080/forecasts";
 
         // Act
         var response = await this.client.GetAsync(serviceUrl);

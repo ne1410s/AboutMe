@@ -42,7 +42,6 @@ public sealed class Program
         app.UseFluentErrorsFeature();
         app.MapControllers();
         app.UseHealthChecksFeature();
-        app.UseHsts();
         app.Run();
     }
 }
