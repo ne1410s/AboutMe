@@ -5,7 +5,31 @@ on:
     - source/**
   workflow_call:
 jobs:
-  run_tests:
+
+  run_frontend_tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./source/AboutMe.Web
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - name: Install (for ci agent)
+      run: npm ci
+    - name: Audit main dependencies (>= moderate)
+      run: npm audit --audit-level=moderate --omit=dev
+    - name: Run tests (headless)
+      run: npm test
+    - name: Show outdated packages (just for info)
+      run: npm outdated -l || true
+    # - name: Test coverage
+    # - name: Mutation score
+    # - name: Drop artifact - reports
+    # - name: Build / fail linter warnings
+
+  run_backend_tests:
     runs-on: ubuntu-latest
     defaults:
       run:

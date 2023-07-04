@@ -115,6 +115,17 @@ module appServiceDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/app-ser
   }
 }
 
+module staticWebAppDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/static-web-app:v1' = {
+  name: 'staticWebAppDeploy'
+  params: {
+    shortName: ''
+    location: location
+    prefix: prefix
+    suffix: suffix
+    tags: tags
+  }
+}
+
 // module appConfigDeploy_Open 'br:devacrsharedweu.azurecr.io/bicep/modules/integration/app-config:v1' = {
 //   name: 'appConfigDeploy_Open'
 //   scope: resourceGroup(sharedRgName)
