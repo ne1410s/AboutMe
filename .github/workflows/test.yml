@@ -21,7 +21,7 @@ jobs:
     - name: Audit main dependencies (>= high)
       run: npm audit --audit-level=high --omit=dev
     - name: Run tests (headless)
-      run: ng test --browsers=ChromeHeadless --code-coverage --source-map=false --watch=false
+      run: npx ng test --browsers=ChromeHeadless --code-coverage --source-map=false --watch=false
     - name: Show outdated packages (just for info)
       run: npm outdated -l || true
     # - name: Test coverage
