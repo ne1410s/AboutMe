@@ -18,8 +18,8 @@ jobs:
         node-version: 18
     - name: Install (for ci agent)
       run: npm ci
-    - name: Audit main dependencies (>= moderate)
-      run: npm audit --audit-level=moderate --omit=dev
+    - name: Audit main dependencies (>= high)
+      run: npm audit --audit-level=high --omit=dev
     - name: Run tests (headless)
       run: npm test
     - name: Show outdated packages (just for info)
