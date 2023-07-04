@@ -21,7 +21,7 @@ jobs:
     - name: Audit main dependencies (>= high)
       run: npm audit --audit-level=high --omit=dev
     - name: Run tests (headless)
-      run: npm test
+      run: ng test --browsers=ChromeHeadless --code-coverage --source-map=false --watch=false
     - name: Show outdated packages (just for info)
       run: npm outdated -l || true
     # - name: Test coverage
@@ -45,6 +45,8 @@ jobs:
       run: dotnet nuget add source --name ne1410s --username ne1410s --password "${{ env.READ_REPO_PACKAGES }}" --store-password-in-clear-text "https://nuget.pkg.github.com/ne1410s/index.json"
     - name: Restore tools
       run: dotnet tool restore
+    - name: Restore packages
+      run: dotnet restore
     - name: Build for release
       run: dotnet build -c Release
     - name: Generate raw coverage data
