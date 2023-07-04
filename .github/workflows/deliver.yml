@@ -29,15 +29,27 @@ jobs:
     - name: Restore tools
       working-directory: ./source
       run: dotnet tool restore
+      
     - name: Publish source (api)
       run: dotnet build ./source/AboutMe.Api -c Release -o '${{ runner.temp }}/api'
     - name: Generate source archive (api)
       run: mkdir -p ./drop/deliverable/source && tar cfz $_/api.tar.gz -C '${{ runner.temp }}/api' .
-    - name: Create db migrations bundle (db)
-      working-directory: ./source
-      run: mkdir -p '${{ runner.temp }}/db' && dotnet ef migrations bundle -p AboutMe.Data -s AboutMe.Api -o $_/efbundle
-    - name: Generate db archive (db)
-      run: mkdir -p ./drop/deliverable/source && tar cfz $_/db.tar.gz -C '${{ runner.temp }}/db' .
+
+    # - name: Create db migrations bundle (db)
+    #   working-directory: ./source
+    #   run: mkdir -p '${{ runner.temp }}/db' && dotnet ef migrations bundle -p AboutMe.Data -s AboutMe.Api -o $_/efbundle
+    # - name: Generate db archive (db)
+    #   run: mkdir -p ./drop/deliverable/source && tar cfz $_/db.tar.gz -C '${{ runner.temp }}/db' .
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - name: Install and build
+      working-directory: ./source/AboutMe.Web
+      run: npm ci && npx ng build -c production --output-path '${{ runner.temp }}/ui'
+    - name: Generate dist archive
+      run: mkdir -p ./drop/deliverable/source && tar cfz $_/ui.tar.gz -C '${{ runner.temp }}/ui' .
+
     - name: Upload deliverables
       uses: actions/upload-artifact@v3
       with:

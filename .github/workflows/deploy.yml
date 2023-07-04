@@ -59,10 +59,12 @@ jobs:
       run: |
         mkdir -p extract/iac/bicep && tar xfz deliverable/iac/bicep.tar.gz -C $_
         mkdir -p extract/source/api && tar xfz deliverable/source/api.tar.gz -C $_
-        mkdir -p extract/source/db && tar xfz deliverable/source/db.tar.gz -C $_
+        mkdir -p extract/source/ui && tar xfz deliverable/source/ui.tar.gz -C $_
+        # mkdir -p extract/source/db && tar xfz deliverable/source/db.tar.gz -C $_
         echo SHA_IAC_BICEP=$(sha256sum <(find ./extract/iac/bicep -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
         echo SHA_SRC_API=$(sha256sum <(find ./extract/source/api -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
-        echo SHA_SRC_DB=$(sha256sum <(find ./extract/source/db -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
+        echo SHA_SRC_UI=$(sha256sum <(find ./extract/source/ui -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
+        # echo SHA_SRC_DB=$(sha256sum <(find ./extract/source/db -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
     - id: get_map
       name: Get map
       continue-on-error: true
@@ -132,6 +134,46 @@ jobs:
         package: extract/source/api
         publish-profile: ${{ env.PUB_PROFILE_XML }}
 
+    # Deploy source/ui
+    - name: Deployable source/ui - check for changes
+      run: |
+        echo "oldsha: ${{ fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].src_ui }}"
+        echo "newsha: ${{ env.SHA_SRC_UI }}"
+    - name: Deployable source/ui - grab token (if changed)
+      id: grab_token
+      if: fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].src_ui != env.SHA_SRC_UI
+      run: |
+        deployToken=$(az staticwebapp secrets list -n ${{ env.ENV_PREFIX }}-swa-${{ secrets.AZURE_WORKLOAD }}-${{ secrets.AZURE_RG_LOC }} --query 'properties.apiKey' -o tsv)
+        echo "::add-mask::$deployToken"
+        echo DEPLOY_TOKEN=$deployToken >> $GITHUB_ENV
+    # - name: Deployable source/ui - grab config (if changed)
+    #   id: grab_config
+    #   if: steps.grab_token.outcome == 'success'
+    #   run: |
+    #     nutritionApiUrl=$(az appconfig kv show --key "Dynamic:Global:Apis:Nutrition" --label ${{ env.ENV_PREFIX }} -n ${{ env.ENV_PREFIX }}-appconfig-shared-${{ secrets.AZURE_RG_LOC }} --auth-mode login --query value -o tsv)
+    #     echo "::add-mask::$nutritionApiUrl"
+    #     echo NUTRITION_API=$nutritionApiUrl >> $GITHUB_ENV
+    # - name: Update environment config
+    #   id: update_config
+    #   if: steps.grab_config.outcome == 'success'
+    #   uses: actions/github-script@v6
+    #   with:
+    #     script: |
+    #       const fs = require('fs');
+    #       const envFilePath = `${process.env.GITHUB_WORKSPACE}/extract/source/ui/env.js`;
+    #       const current = fs.readFileSync(envFilePath, { encoding: 'utf8' });  
+    #       const updated = current.replace('https://localhost:7150', '${{ env.NUTRITION_API }}');
+    #       fs.writeFileSync(envFilePath, Buffer.from(updated));
+    - name: Deployable source/ui - publish (if changed)
+      if: steps.update_config.outcome == 'success'
+      uses: Azure/static-web-apps-deploy@v1
+      with:
+        azure_static_web_apps_api_token: ${{ env.DEPLOY_TOKEN }}
+        action: upload
+        app_location: extract/source/ui
+        output_location: ''
+        skip_app_build: true
+
     - name: Merge deployment map
       uses: actions/github-script@v6
       with:
@@ -140,7 +182,8 @@ jobs:
           const merged = { ...${{ steps.read_map.outputs.map }}, ${{ env.ENV_PREFIX }}: {
             'iac_bicep': '${{ env.SHA_IAC_BICEP }}',
             'src_api': '${{ env.SHA_SRC_API }}',
-            'src_db': '${{ env.SHA_SRC_DB }}'
+            'src_db': '${{ env.SHA_SRC_DB }}',
+            'src_ui': '${{ env.SHA_SRC_UI }}'
           }};
           fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/deployment_map.json`, Buffer.from(JSON.stringify(merged)));
     - name: Upload deployment map
