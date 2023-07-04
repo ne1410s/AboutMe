@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "AboutMe.Web": {
+    "aboutme": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -21,11 +21,12 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
+              "src/env.js",
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -60,10 +61,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "AboutMe.Web:build:production"
+              "browserTarget": "aboutme:build:production"
             },
             "development": {
-              "browserTarget": "AboutMe.Web:build:development"
+              "browserTarget": "aboutme:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +72,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "AboutMe.Web:build"
+            "browserTarget": "aboutme:build"
           }
         },
         "test": {
@@ -87,7 +88,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": [],
             "karmaConfig": "karma.conf.js"

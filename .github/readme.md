@@ -107,6 +107,7 @@ echo "AZURE_SUB_ID:     $subId"; `
 echo "AZURE_SCM_ID:     $scmSpId"; `
 echo "AZURE_SQL_ADM_PW: <GENERATE SMTH>"; `
 echo "AZURE_CI_PREFIX:  <e.g. dev>"; `
+echo "API_BASE_URL:     <ADD SMTH>"; `
 if ( $scmCreds ) { echo "AZURE_SCM_CREDS:" $scmCreds; } `
 echo "--------------------------------------------------------------------------------"; `
  

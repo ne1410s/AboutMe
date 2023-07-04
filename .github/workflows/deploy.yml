@@ -153,19 +153,19 @@ jobs:
     #     nutritionApiUrl=$(az appconfig kv show --key "Dynamic:Global:Apis:Nutrition" --label ${{ env.ENV_PREFIX }} -n ${{ env.ENV_PREFIX }}-appconfig-shared-${{ secrets.AZURE_RG_LOC }} --auth-mode login --query value -o tsv)
     #     echo "::add-mask::$nutritionApiUrl"
     #     echo NUTRITION_API=$nutritionApiUrl >> $GITHUB_ENV
-    # - name: Update environment config
-    #   id: update_config
-    #   if: steps.grab_config.outcome == 'success'
-    #   uses: actions/github-script@v6
-    #   with:
-    #     script: |
-    #       const fs = require('fs');
-    #       const envFilePath = `${process.env.GITHUB_WORKSPACE}/extract/source/ui/env.js`;
-    #       const current = fs.readFileSync(envFilePath, { encoding: 'utf8' });  
-    #       const updated = current.replace('https://localhost:7150', '${{ env.NUTRITION_API }}');
-    #       fs.writeFileSync(envFilePath, Buffer.from(updated));
-    - name: Deployable source/ui - publish (if changed)
+    - name: Update environment config
+      id: update_config
       if: steps.grab_token.outcome == 'success'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const envFilePath = `${process.env.GITHUB_WORKSPACE}/extract/source/ui/env.js`;
+          const current = fs.readFileSync(envFilePath, { encoding: 'utf8' });  
+          const updated = current.replace('https://localhost:7150', '${{ secrets.API_BASE_URL }}');
+          fs.writeFileSync(envFilePath, Buffer.from(updated));
+    - name: Deployable source/ui - publish (if changed)
+      if: steps.update_config.outcome == 'success'
       uses: Azure/static-web-apps-deploy@v1
       with:
         azure_static_web_apps_api_token: ${{ env.DEPLOY_TOKEN }}
