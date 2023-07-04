@@ -23,8 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		stryker-config.json = stryker-config.json
 	EndProjectSection
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "AboutMe.Web", "AboutMe.Web\AboutMe.Web.esproj", "{FB32F22C-21F3-45EF-80AC-A985E18F1BE8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,12 +45,6 @@ Global
 		{3611BA0E-BABB-4086-8139-805A353E4B8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3611BA0E-BABB-4086-8139-805A353E4B8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3611BA0E-BABB-4086-8139-805A353E4B8D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB32F22C-21F3-45EF-80AC-A985E18F1BE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB32F22C-21F3-45EF-80AC-A985E18F1BE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB32F22C-21F3-45EF-80AC-A985E18F1BE8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{FB32F22C-21F3-45EF-80AC-A985E18F1BE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB32F22C-21F3-45EF-80AC-A985E18F1BE8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB32F22C-21F3-45EF-80AC-A985E18F1BE8}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
