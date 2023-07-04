@@ -23,7 +23,7 @@ public static class CorsStartupExtensions
     {
         configuration.MustExist();
         var corsHeaders = configuration.GetSection("Cors:Headers").Get<string[]>();
-        var corsOrigins = configuration.GetSection("Dynamic:Global:CorsOrigins").Get<string[]>();
+        var corsOrigins = configuration.GetSection("Cors:Origins").Get<string[]>();
         return services.AddCors(o => o
             .AddDefaultPolicy(builder => builder
                 .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")

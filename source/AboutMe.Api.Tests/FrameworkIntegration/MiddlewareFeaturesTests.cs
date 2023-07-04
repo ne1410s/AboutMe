@@ -2,11 +2,7 @@
 // Copyright (c) ne1410s. All rights reserved.
 // </copyright>
 
-namespace AboutMe.Api.tests.FrameworkIntegration;
-
-using System.Net;
-using System.Net.Http.Json;
-using FluentErrors.Api.Models;
+namespace AboutMe.Api.Tests.FrameworkIntegration;
 
 /// <summary>
 /// Tests for miscellaneous http middleware.
@@ -17,7 +13,7 @@ public class MiddlewareFeaturesTests
 
     public MiddlewareFeaturesTests()
     {
-        var appFactory = new TestingWebAppFactory(nameof(MiddlewareFeaturesTests));
+        var appFactory = new TestingWebAppFactory();
         this.client = appFactory.CreateClient();
     }
 
@@ -25,7 +21,7 @@ public class MiddlewareFeaturesTests
     public async Task UnsecureHttp_WhenRequested_HandledAsExpected()
     {
         // Arrange
-        const string serviceUrl = "http://localhost:80/forecast";
+        const string serviceUrl = "http://localhost:80/forecasts";
 
         // Act
         var response = await this.client.GetAsync(serviceUrl);
@@ -35,19 +31,15 @@ public class MiddlewareFeaturesTests
     }
 
     [Fact]
-    public async Task ModelItem_WhenInvalid_ReturnsExpected()
+    public async Task InvalidRequest_WhenRequested_HandledAsExpected()
     {
         // Arrange
-        const string serviceUrl = "items";
-        var request = new { name = "test", specificFat = "hello" };
-        var expected = new HttpErrorBody("StaticValidationException", "Invalid instance received.");
+        const string serviceUrl = "forecasts?empirical=42";
 
         // Act
-        var response = await this.client.PostAsJsonAsync(serviceUrl, request);
-        var result = await response.Content.ReadFromJsonAsync<HttpErrorBody>();
+        var response = await this.client.GetAsync(serviceUrl);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        result.Should().BeEquivalentTo(expected, x => x.Excluding(d => d.Errors));
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
     }
 }
