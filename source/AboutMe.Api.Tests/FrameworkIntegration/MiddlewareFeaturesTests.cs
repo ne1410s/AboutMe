@@ -21,12 +21,25 @@ public class MiddlewareFeaturesTests
     public async Task UnsecureHttp_WhenRequested_HandledAsExpected()
     {
         // Arrange
-        const string serviceUrl = "http://localhost:8080/forecasts";
+        const string serviceUrl = "http://localhost:80/forecasts";
 
         // Act
         var response = await this.client.GetAsync(serviceUrl);
 
         // Assert
         response.RequestMessage!.RequestUri!.Scheme.Should().Be("https");
+    }
+
+    [Fact]
+    public async Task InvalidRequest_WhenRequested_HandledAsExpected()
+    {
+        // Arrange
+        const string serviceUrl = "forecasts?empirical=42";
+
+        // Act
+        var response = await this.client.GetAsync(serviceUrl);
+
+        // Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
     }
 }

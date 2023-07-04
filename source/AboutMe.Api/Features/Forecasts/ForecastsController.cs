@@ -18,9 +18,9 @@ public class ForecastsController : ControllerBase
     /// </summary>
     /// <returns>A forecast.</returns>
     [HttpGet]
-    public async Task<ForecastWebModel> Get()
+    public ForecastWebModel Get(bool empirical = false)
     {
-        await Task.CompletedTask;
-        return new(30.2, "Sunny");
+        var temperature = empirical ? 90 : 30;
+        return new(temperature, "Sunny");
     }
 }

@@ -7,6 +7,6 @@ namespace AboutMe.Api.Features.Forecasts;
 /// <summary>
 /// A forecast.
 /// </summary>
-/// <param name="TemperatureC">The temperature.</param>
+/// <param name="Temperature">The temperature.</param>
 /// <param name="Description">The description.</param>
-public record ForecastWebModel(double TemperatureC, string Description);
+public record ForecastWebModel(double Temperature, string Description);
