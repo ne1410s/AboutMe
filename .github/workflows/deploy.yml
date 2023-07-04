@@ -165,7 +165,7 @@ jobs:
     #       const updated = current.replace('https://localhost:7150', '${{ env.NUTRITION_API }}');
     #       fs.writeFileSync(envFilePath, Buffer.from(updated));
     - name: Deployable source/ui - publish (if changed)
-      if: steps.update_config.outcome == 'success'
+      if: steps.grab_token.outcome == 'success'
       uses: Azure/static-web-apps-deploy@v1
       with:
         azure_static_web_apps_api_token: ${{ env.DEPLOY_TOKEN }}
