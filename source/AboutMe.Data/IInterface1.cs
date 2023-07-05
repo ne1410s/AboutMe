@@ -12,5 +12,5 @@ public interface IInterface1
     /// <summary>
     /// Gets the fun factor.
     /// </summary>
-    public int FunFactor => 10;
+    public int FunFactor { get; }
 }
