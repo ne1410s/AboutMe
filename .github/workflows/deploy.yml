@@ -60,11 +60,11 @@ jobs:
         mkdir -p extract/iac/bicep && tar xfz deliverable/iac/bicep.tar.gz -C $_
         mkdir -p extract/source/api && tar xfz deliverable/source/api.tar.gz -C $_
         mkdir -p extract/source/ui && tar xfz deliverable/source/ui.tar.gz -C $_
-        # mkdir -p extract/source/db && tar xfz deliverable/source/db.tar.gz -C $_
+        mkdir -p extract/source/db && tar xfz deliverable/source/db.tar.gz -C $_
         echo SHA_IAC_BICEP=$(sha256sum <(find ./extract/iac/bicep -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
         echo SHA_SRC_API=$(sha256sum <(find ./extract/source/api -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
         echo SHA_SRC_UI=$(sha256sum <(find ./extract/source/ui -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
-        # echo SHA_SRC_DB=$(sha256sum <(find ./extract/source/db -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
+        echo SHA_SRC_DB=$(sha256sum <(find ./extract/source/db -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
     - id: get_map
       name: Get map
       continue-on-error: true
@@ -100,21 +100,22 @@ jobs:
         template: extract/iac/bicep/main.bicep
         parameters:
           sqlAdminPass=${{ secrets.AZURE_SQL_ADM_PW }}
+          sqlConnection=${{ secrets.AZURE_SQL_CONN }}
     - name: Deployable iac/bicep - group assignments
       if: steps.deploy_iac.outcome == 'success'
       run: echo "appService principalId - ${{ steps.deploy_iac.outputs.appServicePrincipalId }}"
 
-    # # Deploy source/db
-    # - name: Deployable source/db - check for changes
-    #   run: |
-    #     echo "oldsha: ${{ fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].src_db }}"
-    #     echo "newsha: ${{ env.SHA_SRC_DB }}"
-    # - name: Deployable source/db - run ef bundle (if changed)
-    #   id: run_bundle
-    #   if: fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].src_db != env.SHA_SRC_DB
-    #   run: |
-    #     cd extract/source/db
-    #     ./efbundle --connection "Server=dev-sql-about-weu.database.windows.net;Initial Catalog=AboutDb;Authentication=Active Directory Default;"
+    # Deploy source/db
+    - name: Deployable source/db - check for changes
+      run: |
+        echo "oldsha: ${{ fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].src_db }}"
+        echo "newsha: ${{ env.SHA_SRC_DB }}"
+    - name: Deployable source/db - run ef bundle (if changed)
+      id: run_bundle
+      if: fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].src_db != env.SHA_SRC_DB
+      run: |
+        cd extract/source/db
+        ./efbundle --connection "${{ secrets.AZURE_SQL_CONN }}"
 
     # Deploy source/api
     - name: Deployable source/api - check for changes
@@ -155,7 +156,7 @@ jobs:
     #     nutritionApiUrl=$(az appconfig kv show --key "Dynamic:Global:Apis:Nutrition" --label ${{ env.ENV_PREFIX }} -n ${{ env.ENV_PREFIX }}-appconfig-shared-${{ secrets.AZURE_RG_LOC }} --auth-mode login --query value -o tsv)
     #     echo "::add-mask::$nutritionApiUrl"
     #     echo NUTRITION_API=$nutritionApiUrl >> $GITHUB_ENV
-    - name: Update environment config
+    - name: Deployable source/ui - update config (if changed)
       id: update_config
       if: steps.grab_token.outcome == 'success'
       uses: actions/github-script@v6
