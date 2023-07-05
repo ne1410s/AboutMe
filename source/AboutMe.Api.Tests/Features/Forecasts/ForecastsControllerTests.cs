@@ -5,6 +5,8 @@
 namespace AboutMe.Api.Tests.Features.Forecasts;
 
 using AboutMe.Api.Features.Forecasts;
+using AboutMe.Business.Features.Forecasts;
+using Moq;
 
 /// <summary>
 /// Tests for the <see cref="ForecastsController"/>.
@@ -12,16 +14,19 @@ using AboutMe.Api.Features.Forecasts;
 public class ForecastsControllerTests
 {
     [Theory]
-    [InlineData(true, 90)]
-    [InlineData(false, 30)]
-    public void Get_WhenCalled_ReturnsExpected(bool empirical, double expectedTemp)
+    [InlineData(true, 41)]
+    [InlineData(false, 5)]
+    public async Task Get_WhenCalled_ReturnsExpected(bool empirical, double expectedTemp)
     {
         // Arrange
-        var sut = new ForecastsController();
-        var expected = new ForecastWebModel(expectedTemp, "Sunny");
+        var mockResult = new ForecastModel(5, "Sunny");
+        var mockService = new Mock<IForecastService>();
+        mockService.Setup(m => m.GetItem()).ReturnsAsync(mockResult);
+        var sut = new ForecastsController(mockService.Object);
+        var expected = new ForecastWebModel(expectedTemp, mockResult.Description);
 
         // Act
-        var result = sut.Get(empirical);
+        var result = await sut.Get(empirical);
 
         // Assert
         result.Should().Be(expected);
