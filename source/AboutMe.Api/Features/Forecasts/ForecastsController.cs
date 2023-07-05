@@ -34,7 +34,13 @@ public class ForecastsController : ControllerBase
     public async Task<ForecastWebModel> Get(bool empirical = false)
     {
         var forecast = await this.forecastService.GetItem();
-        var correctedTemp = empirical ? forecast.TemperatureF : forecast.TemperatureC;
-        return new(correctedTemp, forecast.Description);
+        var retVal = (ForecastWebModel)null!;
+        if (forecast != null)
+        {
+            var correctedTemp = empirical ? forecast.TemperatureF : forecast.TemperatureC;
+            retVal = new(correctedTemp, forecast.Description);
+        }
+
+        return retVal;
     }
 }

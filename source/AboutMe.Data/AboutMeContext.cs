@@ -34,5 +34,8 @@ public class AboutMeContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfiguration(new ForecastEntityConfig());
+
+        modelBuilder.Entity<ForecastModel>().HasData(
+            new { ForecastId = 1, TemperatureC = 28d, Description = "Balmy" });
     }
 }
