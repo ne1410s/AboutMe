@@ -35,11 +35,11 @@ jobs:
     - name: Generate source archive (api)
       run: mkdir -p ./drop/deliverable/source && tar cfz $_/api.tar.gz -C '${{ runner.temp }}/api' .
 
-    # - name: Create db migrations bundle (db)
-    #   working-directory: ./source
-    #   run: mkdir -p '${{ runner.temp }}/db' && dotnet ef migrations bundle -p AboutMe.Data -s AboutMe.Api -o $_/efbundle
-    # - name: Generate db archive (db)
-    #   run: mkdir -p ./drop/deliverable/source && tar cfz $_/db.tar.gz -C '${{ runner.temp }}/db' .
+    - name: Create db migrations bundle (db)
+      working-directory: ./source
+      run: mkdir -p '${{ runner.temp }}/db' && dotnet ef migrations bundle -p AboutMe.Data -s AboutMe.Api -o $_/efbundle
+    - name: Generate db archive (db)
+      run: mkdir -p ./drop/deliverable/source && tar cfz $_/db.tar.gz -C '${{ runner.temp }}/db' .
 
     - uses: actions/setup-node@v3
       with:

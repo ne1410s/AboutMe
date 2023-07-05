@@ -6,6 +6,10 @@
 @secure()
 param sqlAdminPass string
 
+@description('Sql connection string.')
+@secure()
+param sqlConnection string
+
 @secure()
 @description('The app config endpoint. If not supplied, uri is built for the "shared" workload.')
 param appConfigEndpoint string = ''
@@ -107,6 +111,7 @@ module appServiceDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/app-ser
     ]
     connectionStrings: [
       { name: 'AppConfig', value: finalAppConfigEndpoint }
+      { name: 'SqlDb', value: sqlConnection }
     ]
     location: location
     prefix: prefix
