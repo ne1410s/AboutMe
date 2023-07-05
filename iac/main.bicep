@@ -1,10 +1,10 @@
 // -----------------------------------------------------------------------------
 // Specific Parameters
 // -----------------------------------------------------------------------------
-// @description('Sql admin password.')
-// @minLength(36)
-// @secure()
-// param sqlAdminPass string
+@description('Sql admin password.')
+@minLength(36)
+@secure()
+param sqlAdminPass string
 
 @secure()
 @description('The app config endpoint. If not supplied, uri is built for the "shared" workload.')
@@ -54,38 +54,38 @@ module appInsightsDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/diagnostic
   }
 }
 
-// module storageAccountDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/storage/storage-account:v1' = {
-//   name: 'storageAccountDeploy'
-//   params: {
-//     prefix: prefix
-//     suffix: suffix
-//     location: location
-//     tags: tags
-//   }
-// }
+module storageAccountDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/storage/storage-account:v1' = {
+  name: 'storageAccountDeploy'
+  params: {
+    prefix: prefix
+    suffix: suffix
+    location: location
+    tags: tags
+  }
+}
 
-// module sqlServerDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/database/sqldb-server:v1' = {
-//   name: 'sqlServerDeploy'
-//   params: {
-//     adminLogin: 'about_admin'
-//     adminPassword: sqlAdminPass
-//     prefix: prefix
-//     suffix: suffix
-//     location: location
-//     tags: tags
-//   }
-// }
+module sqlServerDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/database/sqldb-server:v1' = {
+  name: 'sqlServerDeploy'
+  params: {
+    adminLogin: 'about_admin'
+    adminPassword: sqlAdminPass
+    prefix: prefix
+    suffix: suffix
+    location: location
+    tags: tags
+  }
+}
 
-// module sqlServerDbDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/database/sqldb:v1' = {
-//   name: 'sqlServerDbDeploy'
-//   params: {
-//     databaseName: 'AboutDb'
-//     useFree: false
-//     sqlServerResourceName: sqlServerDeploy.outputs.resourceName
-//     location: location
-//     tags: tags
-//   }
-// }
+module sqlServerDbDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/database/sqldb:v1' = {
+  name: 'sqlServerDbDeploy'
+  params: {
+    databaseName: 'AboutDb'
+    useFree: false
+    sqlServerResourceName: sqlServerDeploy.outputs.resourceName
+    location: location
+    tags: tags
+  }
+}
 
 module appServicePlanDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/app-service-plan:v1' = {
   name: 'appServicePlanDeploy'

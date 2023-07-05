@@ -97,7 +97,9 @@ jobs:
       with:
         subscriptionId: ${{ secrets.AZURE_SUB_ID }}
         resourceGroupName: ${{ env.ENV_PREFIX }}-rg-${{ secrets.AZURE_WORKLOAD }}-${{ secrets.AZURE_RG_LOC }}
-        template: extract/iac/bicep/main.bicep     
+        template: extract/iac/bicep/main.bicep
+        parameters:
+          sqlAdminPass=${{ secrets.AZURE_SQL_ADM_PW }}
     - name: Deployable iac/bicep - group assignments
       if: steps.deploy_iac.outcome == 'success'
       run: echo "appService principalId - ${{ steps.deploy_iac.outputs.appServicePrincipalId }}"
