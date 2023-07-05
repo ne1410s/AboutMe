@@ -16,6 +16,7 @@ public class ForecastsController : ControllerBase
     /// <summary>
     /// Gets a forecast.
     /// </summary>
+    /// <param name="empirical">Whether use old skool units.</param>
     /// <returns>A forecast.</returns>
     [HttpGet]
     public ForecastWebModel Get(bool empirical = false)
