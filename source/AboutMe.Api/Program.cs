@@ -6,6 +6,7 @@ namespace AboutMe.Api;
 
 using System.Diagnostics.CodeAnalysis;
 using AboutMe.Api.Features.Common;
+using AboutMe.Api.Features.Forecasts;
 
 /// <summary>
 /// The program. Exposing the type serves to support framework testing.
@@ -32,7 +33,9 @@ public sealed class Program
         builder.Services.AddTracingFeature(config);
         builder.Services.AddSwaggerFeature();
         builder.Services.AddFluentErrorsFeature();
+        builder.Services.AddDatabaseFeature(config);
         builder.Services.AddSharedServices();
+        builder.Services.AddForecastsFeature();
         builder.Services.AddHealthChecksFeature();
 
         var app = builder.Build();
