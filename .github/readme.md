@@ -121,9 +121,9 @@ echo "--------------------------------------------------------------------------
 CREATE USER [<identity-name>] FROM EXTERNAL PROVIDER;
 ALTER ROLE db_datareader ADD MEMBER [<identity-name>];
 ALTER ROLE db_datawriter ADD MEMBER [<identity-name>];
--- The following is only necessary for modifying schema (e.g. SCM SP running ef migrations bundle)
---ALTER ROLE db_ddladmin ADD MEMBER [<identity-name>];
-GO
+-- The following is necessary for modifying schema (e.g. SCM SP / engineers running ef migrations bundle)
+--GRANT ALTER ON Schema :: DBO TO engineers
+--GRANT CREATE TABLE TO engineers
 ```
 
 *The <identity-name> can be the name of the Azure App Service (e.g. direct managed identity),
