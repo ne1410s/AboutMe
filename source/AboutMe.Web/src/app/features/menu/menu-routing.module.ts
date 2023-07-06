@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
-import { HomeComponent } from './components/home.component';
-import { MilkComponent } from './components/milk/milk.component';
+import { MenuPageComponent } from './components/menu-page/menu-page.component';
 
 const ROUTES = [
   {
     path: '',
-    component: HomeComponent,
+    component: MenuPageComponent,
     children: [
-      { path: 'milk', component: MilkComponent }
+      { 
+        path: 'contact',
+        loadChildren: () => import('../contact/contact.module').then(m => m.ContactModule)
+      }
     ]
   },
   {
@@ -26,4 +27,4 @@ const ROUTES = [
   ],
   exports: [RouterModule],
 })
-export class HomeRoutingModule {}
+export class MenuRoutingModule {}

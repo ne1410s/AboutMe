@@ -1,12 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
-import { MenuComponent } from './components/menu.component';
+import { MenuRoutingModule } from './menu-routing.module';
+import { MenuPageComponent } from './components/menu-page/menu-page.component';
+import { MenuComponent } from './components/menu/menu.component';
 
 @NgModule({
-  declarations: [MenuComponent],
-  imports: [CommonModule, RouterModule],
-  exports: [MenuComponent],
+  declarations: [
+    MenuPageComponent,
+    MenuComponent,
+  ],
+  imports: [
+    CommonModule,
+    MenuRoutingModule,
+  ],
+  exports: [
+    MenuPageComponent,
+    MenuComponent,
+  ],
 })
 export class MenuModule {}
