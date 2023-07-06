@@ -111,6 +111,7 @@ module appServiceDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/app-ser
     ]
     connectionStrings: [
       { name: 'AppConfig', value: finalAppConfigEndpoint }
+      { name: 'AppInsights', value: appInsightsDeploy.outputs.connectionString }
       { name: 'SqlDb', value: sqlConnection }
     ]
     location: location
