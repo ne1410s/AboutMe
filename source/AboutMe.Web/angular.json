@@ -23,7 +23,8 @@
             "assets": [
               "src/env.js",
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/routes.json"
             ],
             "styles": [
               "src/styles.scss"
