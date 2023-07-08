@@ -1,1 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;500&display=swap');
+
+:root {
+  --palette-main: rgba(86, 156, 168, 1);
+  --text-main: rgba(0, 0, 0, .75);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Dosis, sans-serif;
+}
