@@ -2,5 +2,12 @@
 <ul>
   <li><a routerLink="/" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
   <li><a routerLink="/about" routerLinkActive="selected">About</a></li>
+  <li>
+    <a routerLink="/projects" routerLinkActive="selected">Projects</a>
+    <ul>
+      <li><a routerLink="/projects/acme" routerLinkActive="selected">Acme</a></li>
+      <li><a routerLink="/projects/crypto-stream" routerLinkActive="selected">Crypto Stream</a></li>
+    </ul>
+  </li>
   <li><a routerLink="/contact" routerLinkActive="selected">Contact</a></li>
 </ul>
