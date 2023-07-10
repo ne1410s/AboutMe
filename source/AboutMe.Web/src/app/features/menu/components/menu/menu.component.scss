@@ -1,3 +1,43 @@
-a.selected {
-  background-color: #ccc;
+:host {
+  display: flex;
+  justify-content: space-between;
+}
+
+ul {
+  display: flex;
+  list-style: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  position: relative;
+
+  ul {
+    display: none;
+    position: absolute;
+  }
+
+  &:hover > ul {
+    display: block;
+  }
+}
+
+a {
+  display: block;
+  text-decoration: none;
+  padding: .5rem 1rem;
+
+  &:is(ul a) {
+
+    &:hover {
+      background-color: #eee;
+    }
+
+    &.selected {
+      color: #090;
+    }
+  }
 }

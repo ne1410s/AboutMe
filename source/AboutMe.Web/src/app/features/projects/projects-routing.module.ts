@@ -18,8 +18,20 @@ const ROUTES = [
     loadChildren: () => import('./project-crypto-stream/project-crypto-stream.module').then(m => m.ProjectCryptoStreamModule)
   },
   {
+    path: 'custom-elements',
+    loadChildren: () => import('./project-custom-elements/project-custom-elements.module').then(m => m.ProjectCustomElementsModule)
+  },
+  {
     path: 'griddler',
     loadChildren: () => import('./project-griddler/project-griddler.module').then(m => m.ProjectGriddlerModule)
+  },
+  {
+    path: 'libra',
+    loadChildren: () => import('./project-libra/project-libra.module').then(m => m.ProjectLibraModule)
+  },
+  {
+    path: 'psr',
+    loadChildren: () => import('./project-psr/project-psr.module').then(m => m.ProjectPsrModule)
   },
   {
     path: '**',

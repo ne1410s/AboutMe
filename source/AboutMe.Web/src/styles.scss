@@ -1,13 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;500&display=swap');
 
 :root {
-  --palette-main: rgba(86, 156, 168, 1);
-  --text-main: rgba(0, 0, 0, .75);
+  --accent-1-hue: rgba(0, 180, 0, 1);
+  --accent-2-hue: rgba(160, 0, 160, 1);
+  --body-hue: rgba(0, 0, 0, .7);
 }
 
 html,
 body {
   height: 100%;
+  color: var(--body-hue);
+}
+
+a {
+  color: var(--body-hue);
+  &.selected {
+    color: var(--accent-1-hue);
+  }
 }
 
 body {
