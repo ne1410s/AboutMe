@@ -2,10 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-const APP_ROUTES = [
+import { ProjectPsrComponent } from './components/project-psr.component';
+
+const ROUTES = [
   {
     path: '',
-    loadChildren: () => import('./features/menu/menu.module').then(m => m.MenuModule)
+    component: ProjectPsrComponent,
   },
   {
     path: '**',
@@ -16,11 +18,8 @@ const APP_ROUTES = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot(APP_ROUTES, {
-      onSameUrlNavigation: 'reload',
-      scrollPositionRestoration: 'top',
-    }),
+    RouterModule.forChild(ROUTES),
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class ProjectPsrRoutingModule {}
