@@ -18,6 +18,10 @@ const ROUTES = [
     loadChildren: () => import('./project-crypto-stream/project-crypto-stream.module').then(m => m.ProjectCryptoStreamModule)
   },
   {
+    path: 'griddler',
+    loadChildren: () => import('./project-griddler/project-griddler.module').then(m => m.ProjectGriddlerModule)
+  },
+  {
     path: '**',
     redirectTo: '',
   },
