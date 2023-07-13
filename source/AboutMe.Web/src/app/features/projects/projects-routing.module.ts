@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { ProjectSummaryComponent } from './components/project-summary.component';
+import { ProjectsPageComponent } from './components/projects-page/projects-page.component';
 
 const ROUTES = [
   {
     path: '',
-    component: ProjectSummaryComponent
+    component: ProjectsPageComponent
   },
   {
     path: 'acme',
