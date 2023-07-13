@@ -19,6 +19,7 @@ li {
   ul {
     display: none;
     position: absolute;
+    width: 180px;
   }
 
   &:hover > ul {
@@ -30,6 +31,10 @@ a {
   display: block;
   text-decoration: none;
   padding: .5rem 1rem;
+
+  &:not(ul a) {
+    color: var(--accent-2-hue);
+  }
 
   &:is(ul a) {
 
@@ -63,6 +68,7 @@ a {
 
   li ul {
     position: relative;
+    width: 100%;
   }
 
   a {
