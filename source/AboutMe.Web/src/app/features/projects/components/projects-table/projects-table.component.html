@@ -1,1 +1,6 @@
-<p>projects-table</p>
+<ng-container *ngFor="let project of (projects$ | async)">
+  <div class="row" *ngIf="project.enabled">
+    <a routerLink="/projects/{{ project.link }}">{{ project.title }}</a>
+    <p>{{ project.description }}</p>
+  </div>
+</ng-container>

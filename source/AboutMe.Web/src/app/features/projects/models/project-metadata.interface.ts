@@ -1,6 +1,8 @@
-export interface ProjectMetadata {
-  title: string;
-  link: string;
-  description: string;
-  hidden?: boolean;
+export class ProjectMetadata {
+  constructor(
+    public title: string,
+    public link: string,
+    public description: string,
+    public enabled: boolean = true,
+  ) {}
 }
