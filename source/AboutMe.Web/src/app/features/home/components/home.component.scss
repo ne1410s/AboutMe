@@ -1,11 +1,38 @@
 :host {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 100%;
+  position: relative;
 }
 
-img {
-  box-sizing: border-box;
+.court-scene {
+  position: absolute;
+  top: 0;
   width: 100%;
-  max-height: calc(100vh - 6rem);
+  perspective: 390px;
+  animation: track-baseline 5s linear 7s;
+  overflow: hidden;
+
+  img {
+    max-height: calc(100vh - 6rem);
+    animation: swoop-down 2s ease-in 3s forwards;
+    background-color: #0b0;
+  }
+}
+
+.logo {
+  text-align: center;
+  font-size: 3rem;
+  letter-spacing: .5rem;
+  color: #fff;
+  margin: 5rem 0;
+}
+
+@keyframes track-baseline {
+  0% { perspective-origin: 50% 50%; }
+  25% { perspective-origin: 60% 50%; }
+  75% { perspective-origin: 40% 50%; }
+}
+
+@keyframes swoop-down {
+  from { transform: rotateX(0deg); }
+  to { transform: rotateX(80deg); }
 }
