@@ -3,11 +3,20 @@
   position: relative;
 }
 
+.logo {
+  text-align: center;
+  font-size: 3rem;
+  letter-spacing: .5rem;
+  color: #fff;
+  margin: 5rem 0;
+}
+
 .court-scene {
+  pointer-events: none;
   position: absolute;
   top: 0;
   width: 100%;
-  perspective: 390px;
+  perspective: 560px;
   animation: track-baseline 5s linear 7s;
   overflow: hidden;
 
@@ -18,12 +27,13 @@
   }
 }
 
-.logo {
+.ball {
   text-align: center;
-  font-size: 3rem;
-  letter-spacing: .5rem;
-  color: #fff;
-  margin: 5rem 0;
+  position: relative;
+  
+  img {
+    width: 100px;
+  }
 }
 
 @keyframes track-baseline {

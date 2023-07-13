@@ -14,12 +14,20 @@ const ROUTES = [
     loadChildren: () => import('./project-acme/project-acme.module').then(m => m.ProjectAcmeModule)
   },
   {
+    path: 'comanche',
+    loadChildren: () => import('./project-comanche/project-comanche.module').then(m => m.ProjectComancheModule)
+  },
+  {
     path: 'crypto-stream',
     loadChildren: () => import('./project-crypto-stream/project-crypto-stream.module').then(m => m.ProjectCryptoStreamModule)
   },
   {
     path: 'custom-elements',
     loadChildren: () => import('./project-custom-elements/project-custom-elements.module').then(m => m.ProjectCustomElementsModule)
+  },
+  {
+    path: 'fluent-errors',
+    loadChildren: () => import('./project-fluent-errors/project-fluent-errors.module').then(m => m.ProjectFluentErrorsModule)
   },
   {
     path: 'griddler',
