@@ -1,6 +1,12 @@
+<div class="header row">
+  <div><p>Project</p></div>
+  <div><p>Conceived</p></div>
+  <div><p>Description</p></div>
+</div>
 <ng-container *ngFor="let project of (projects$ | async)">
-  <div class="row" *ngIf="project.enabled">
-    <a routerLink="/projects/{{ project.link }}">{{ project.title }}</a>
-    <p>{{ project.description }}</p>
+  <div class="data row" *ngIf="project.enabled" (click)="routeToProject(project.link)" >
+    <div>{{ project.title }}</div>
+    <div><p>{{ project.conceived | date: 'MMM `yy' }}</p></div>
+    <div><p>{{ project.description }}</p></div>
   </div>
 </ng-container>

@@ -1,0 +1,45 @@
+.row {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+
+  > div:nth-child(1) {
+    flex: 1 0 100px;
+  }
+
+  > div:nth-child(2) {
+    flex: 1 0 70px;
+  }
+
+  > div:nth-child(3) {
+    flex: 1 1 60%;
+  }
+
+  &.header {
+    font-weight: bold;
+    color: var(--accent-1-hue);
+  }
+
+  &.data {
+    cursor: pointer;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    > div:nth-child(1) {
+      font-weight: bold;
+    }
+
+    > div:nth-child(2) {
+      font-weight: bold;
+      color: var(--accent-2-hue);
+    }
+
+    &:hover {
+      background-color: #ddd;
+    }
+  }
+}
+
+p {
+  margin: 0;
+}
