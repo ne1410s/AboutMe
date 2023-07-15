@@ -4,15 +4,15 @@
   padding: 0 1rem;
 
   > div:nth-child(1) {
-    flex: 1 0 100px;
+    flex: 1 1 100px;
   }
 
   > div:nth-child(2) {
-    flex: 1 0 70px;
+    flex: 1 0 80px;
   }
 
   > div:nth-child(3) {
-    flex: 1 1 60%;
+    flex: 1 1 80%;
   }
 
   &.header {
