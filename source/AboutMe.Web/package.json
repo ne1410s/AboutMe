@@ -18,6 +18,7 @@
     "@angular/platform-browser": "^16.1.5",
     "@angular/platform-browser-dynamic": "^16.1.5",
     "@angular/router": "^16.1.5",
+    "@ne1410s/griddler": "^1.2.4",
     "jest-editor-support": "^31.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
