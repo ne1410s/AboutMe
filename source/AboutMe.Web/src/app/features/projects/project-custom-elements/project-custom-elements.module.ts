@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
 import { ProjectCustomElementsComponent } from './components/project-custom-elements.component';
 import { ProjectCustomElementsRoutingModule } from './project-custom-elements-routing.module';
@@ -14,6 +14,9 @@ import { ProjectCustomElementsRoutingModule } from './project-custom-elements-ro
   ],
   exports: [
     ProjectCustomElementsComponent
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ],
 })
 export class ProjectCustomElementsModule {}

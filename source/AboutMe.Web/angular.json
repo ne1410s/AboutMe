@@ -21,7 +21,6 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/env.js",
               "src/favicon.ico",
               "src/assets",
               "src/routes.json"
@@ -29,7 +28,10 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "src/env.js",
+              "node_modules/@ne1410s/menu/dist/ne14_menu.umd.min.js"
+            ]
           },
           "configurations": {
             "production": {

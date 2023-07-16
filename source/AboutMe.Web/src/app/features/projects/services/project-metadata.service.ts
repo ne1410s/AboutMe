@@ -12,7 +12,7 @@ export class ProjectMetadataService {
     new ProjectMetadata(new Date(2016, 1), 'Crypto Stream', 'crypto-stream', 'The limitations of CBC (..!) and how CTR can step in.'),
     new ProjectMetadata(new Date(2020, 2), 'Custom Elements', 'custom-elements', 'Shadow DOM + CSS3 variables can provide a blend of OOTB functionality and customisability.'),
     new ProjectMetadata(new Date(2014, 11), 'Fluent Errors', 'fluent-errors', 'Custom exceptions that yield predictable response codes: hmm sure... Semantic language to wrap all that: now you\'re talking!'),
-    new ProjectMetadata(new Date(2011, 9), 'Griddler', 'griddler', 'Fun grid puzzle, popularised by GCHQ in a Christmas challenge. Perhaps my most cherished project and my finest algo :)'),
+    new ProjectMetadata(new Date(2011, 9), 'Griddler', 'griddler', 'Fun grid puzzle, later popularised by GCHQ in a Christmas challenge. Perhaps my most cherished side-project :)'),
     new ProjectMetadata(new Date(2021, 5), 'Libra', 'libra', '', false),
     new ProjectMetadata(new Date(2016, 7), 'PSR', 'psr', '', false),
   ];
