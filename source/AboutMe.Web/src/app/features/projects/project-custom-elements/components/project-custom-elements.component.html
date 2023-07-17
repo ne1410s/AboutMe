@@ -1,12 +1,31 @@
 <p>project: custom elements</p>
 
 <div>
-  <p>right click?</p>
+  <p>Custom context menu.</p>
   <ne14-menu>
     <li>Item 1</li>
     <li><a href="https://bing.com" target="_blank">Bing (New)</a></li>
-    <li><a href="https://google.com">Item 3</a></li>
-    <li>Item 4</li>
+    <li class="disabled">Item 3</li>
   </ne14-menu>
-
 </div>
+
+<div>
+  <p>Custom context menu ("dark mode").</p>
+  <ne14-menu class="dark" (itemselect)="onItemSelect($event)">
+    <li>Item 1</li>
+    <li class="split"></li>
+    <li aria-keyshortcuts="Alt+F4">Exit</li>
+  </ne14-menu>
+</div>
+
+<input type="button" (click)="onButtonClick()" value="Show popup"/>
+<ne14-pop move resize #popup>
+  <p>This popup can be...</p>
+  <ol>
+    <li>Moved</li>
+    <li>Resized</li>
+    <li>Dismissed</li>
+    <li>Customised!</li>
+  </ol>
+  <p>...without <i>too</i> much fuss!</p>
+</ne14-pop>

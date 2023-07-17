@@ -1,0 +1,18 @@
+ne14-menu.dark {
+  --bg: #333;
+  --border: 1px solid #888;
+  --box-shadow: 2px 2px 3px #333;
+  --hover-item-bg: #666;
+  --fg: #eee;
+  --disabled-fg: #666;
+}
+
+ne14-pop {
+  --background: rgba(0, 180, 0, .8);
+  --border-radius: 5px;
+  --box-shadow: 5px 5px 20px black;
+
+  p {
+    margin: 1.5rem;
+  }
+}
