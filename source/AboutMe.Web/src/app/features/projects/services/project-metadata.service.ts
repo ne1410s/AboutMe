@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { ProjectMetadata } from '../models/project-metadata.interface';
+import { ProjectMetadata } from '../models/project-metadata.class';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectMetadataService {

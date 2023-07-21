@@ -1,0 +1,30 @@
+import { Component, Input } from '@angular/core';
+import { ImageView } from '../models/image-view.interface';
+
+@Component({
+  selector: 'app-image-viewer',
+  templateUrl: './image-viewer.component.html',
+  styleUrls: ['./image-viewer.component.scss'],
+})
+export class ImageViewerComponent {
+
+  @Input()
+  images!: ImageView[];
+
+  fullScreen: boolean = false;
+
+  index: number = 0;
+
+  toggleFullScreen(): void {
+    this.setIndex(0);
+    this.fullScreen = !this.fullScreen;
+  }
+
+  setIndex(index: number): void {
+    this.index = Math.max(0, Math.min(this.images.length - 1, index));
+  }
+
+  getFullScreenX(): string {
+    return `translateX(${this.index * -100}vw)`;
+  }
+}
