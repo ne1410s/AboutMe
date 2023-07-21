@@ -11,6 +11,7 @@
     transition: background-color 1s;
     overflow: hidden;
     display: flex;
+    justify-content: center;
     align-items: center;
     z-index: 10;
 
@@ -32,17 +33,34 @@
 
   &:not(.full-screen) .track {
     transform: translateX(0px) !important;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    > div {
+      max-width: 200px;
+      padding: 2rem;
+    }
+
+    .title {
+      cursor: pointer;
+    }
   }
 
   .icon {
     position: absolute;
     cursor: pointer;
-    padding: 0 .5rem;
+    padding: 0 .5rem .22rem;
     font-size: 2rem;
     color: #fff;
     background-color: #000;
-    opacity: .7;
+    opacity: .5;
     z-index: 10;
+    line-height: 1;
+    transition: opacity .6s;
+
+    &:hover {
+      opacity: 1;
+    }
 
     &.toggle {
       top: 0;
@@ -52,22 +70,47 @@
     &.next {
       top: 50%;
       right: 0;
-      opacity: .5;
       transform: translateY(-50%);
-      padding: 3rem .25rem;
+      padding: 3rem .5rem 3.22rem;
     }
 
     &.prev {
       top: 50%;
       left: 0;
-      opacity: .5;
       transform: translateY(-50%);
-      padding: 3rem .25rem;
+      padding: 3rem .5rem 3.22rem;
     }
   }
 
   .track {
     display: flex;
     align-items: center;
+
+    > div {
+      position: relative;
+
+      > .title {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        background-color: #000;
+        text-transform: uppercase;
+        opacity: .7;
+        padding: .5rem;
+        transition: opacity .6s;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .viewer:not(.full-screen) .track > div {
+    max-width: 100%;
   }
 }

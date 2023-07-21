@@ -27,4 +27,11 @@ export class ImageViewerComponent {
   getFullScreenX(): string {
     return `translateX(${this.index * -100}vw)`;
   }
+
+  expandToImage(index: number): void {
+    if (!this.fullScreen) {
+      this.toggleFullScreen(); 
+      this.setIndex(index);
+    }
+  }
 }
