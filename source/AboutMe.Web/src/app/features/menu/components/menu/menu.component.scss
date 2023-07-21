@@ -30,6 +30,12 @@ li {
 }
 
 a {
+
+  color: var(--body-hue);
+  &.selected {
+    color: var(--accent-1-hue);
+  }
+  
   display: block;
   text-decoration: none;
   padding: .5rem 1rem;

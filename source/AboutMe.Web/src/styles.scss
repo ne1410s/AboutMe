@@ -19,10 +19,8 @@ body {
 }
 
 a {
-  color: var(--body-hue);
-  &.selected {
-    color: var(--accent-1-hue);
-  }
+  font-weight: bold;
+  color: var(--accent-1-hue);
 }
 
 img {
