@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AboutComponent } from './components/about.component';
 import { AboutRoutingModule } from './about-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { AboutRoutingModule } from './about-routing.module';
   imports: [
     CommonModule,
     AboutRoutingModule,
+    SharedModule,
   ],
   exports: [
     AboutComponent
