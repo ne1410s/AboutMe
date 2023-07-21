@@ -3,7 +3,7 @@
   <style>
     text {
       font-size: 20px;
-      font-family: Consolas;
+      font-family: Consolas, Courier New, monospace;
       letter-spacing: .5em;
       fill: rgb(160, 0, 160);
     }
@@ -13,7 +13,7 @@
     <path id="circpath" d="M100,37c34.8,0,63,28.2,63,63s-28.2,63-63,63s-63-28.2-63-63S65.2,37,100,37z" transform="rotate(-90 100 100)" />
   </defs>
   
-  <circle fill="rgb(150, 245, 70)" cx="100" cy="100" r="85"/>
+  <circle fill="rgb(150, 245, 70)" cx="100" cy="100" r="100"/>
   <polygon points="85,70 130,100 85,130" fill="#fff"/>
   <text>
     <textPath xlink:href="#circpath">Anyone for tennis?</textPath>
