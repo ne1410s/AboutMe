@@ -16,13 +16,13 @@
   position: absolute;
   top: 0;
   width: 100%;
-  perspective: 560px;
-  animation: track-baseline 5s linear 7s;
+  perspective: 800px;
+  animation: track-baseline 7s linear 2 10s;
   overflow: hidden;
 
   img {
     max-height: calc(100vh - 6rem);
-    animation: swoop-down 2s ease-in 3s forwards;
+    animation: swoop-down 8s ease-in 2s forwards;
     background-color: #0b0;
   }
 }
@@ -33,6 +33,13 @@
   
   img {
     width: 100px;
+    border-radius: 100%;
+    box-shadow: .5rem .2rem 1rem rgba(0, 0, 0, .3);
+    transition: box-shadow .6s;
+
+    &:hover {
+      box-shadow: 0 0 0 rgba(0, 0, 0, .3);
+    }
   }
 }
 
@@ -43,6 +50,8 @@
 }
 
 @keyframes swoop-down {
-  from { transform: rotateX(0deg); }
-  to { transform: rotateX(80deg); }
+  0% { transform: rotateX(0deg); }
+  20% { transform: rotateX(60deg); }
+  80% { transform: rotateX(60deg) rotateZ(180deg); }
+  100% { transform: rotateX(70deg) rotateZ(180deg); }
 }
