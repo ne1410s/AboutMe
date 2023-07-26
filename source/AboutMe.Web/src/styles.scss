@@ -61,10 +61,12 @@ img {
   border-radius: .5rem;
   padding: 1rem;
   margin-bottom: 2rem;
-  transition: background-color .6s;
+  box-shadow: 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.3);
+  transition: all .6s;
 
   &:hover {
     background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0.3rem 0.3rem 0 rgba(0, 0, 0, 0.3);
   }
 
   &.shrink-wrap {
@@ -72,6 +74,7 @@ img {
     left: 50%;
     position: relative;
     transform: translateX(-50%);
+    text-align: center;
   }
 
   > h1, h2, h3 {

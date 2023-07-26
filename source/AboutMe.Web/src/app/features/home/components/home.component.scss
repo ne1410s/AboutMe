@@ -1,6 +1,7 @@
 :host {
   height: 100%;
   position: relative;
+  display: block;
 }
 
 .logo {
@@ -9,6 +10,10 @@
   letter-spacing: .5rem;
   color: #fff;
   margin: 5rem 0;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
 }
 
 .court-scene {
@@ -31,7 +36,9 @@
 .ball {
   text-align: center;
   position: relative;
-  
+  top: 50%;
+  transform: translateY(-70%);
+
   img {
     width: 100px;
     border-radius: 100%;
