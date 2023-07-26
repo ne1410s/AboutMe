@@ -1,9 +1,9 @@
-<div class="viewer" [ngClass]="{ 'full-screen': fullScreen }">
+<div class="viewer closer" [ngClass]="{ 'full-screen': fullScreen }" (click)="viewerClick($event)">
   <span class="toggle icon" (click)="toggleFullScreen()">{{ fullScreen ? '&times;' : '&#x26F6;' }}</span>
   <span class="next icon" (click)="setIndex(index + 1)" *ngIf="fullScreen && index < images.length - 1">&#x276F;</span>
   <span class="prev icon" (click)="setIndex(index - 1)" *ngIf="fullScreen && index > 0">&#x276E;</span>
   <div class="track" [style.transform]="getFullScreenX()">
-    <div *ngFor="let img of images; let i = index;">
+    <div *ngFor="let img of images; let i = index;" class="closer">
       <span class="title" (click)="expandToImage(i)">{{ img.title }}</span>
       <img [src]="img.url" [alt]="img.title">
     </div>

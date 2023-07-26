@@ -34,4 +34,11 @@ export class ImageViewerComponent {
       this.setIndex(index);
     }
   }
+
+  viewerClick(event: MouseEvent) {
+    const isCloseTarget = (event.target as any).classList.contains('closer');
+    if (this.fullScreen && isCloseTarget) {
+      this.fullScreen = false;
+    }
+  }
 }
