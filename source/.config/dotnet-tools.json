@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "dotnet-ef": {
-      "version": "7.0.8",
+      "version": "7.0.9",
       "commands": [
         "dotnet-ef"
       ]
@@ -15,7 +15,7 @@
       ]
     },
     "dotnet-stryker": {
-      "version": "3.6.0",
+      "version": "3.9.2",
       "commands": [
         "dotnet-stryker"
       ]
