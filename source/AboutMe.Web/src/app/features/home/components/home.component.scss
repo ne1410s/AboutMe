@@ -6,10 +6,10 @@
 
 .logo {
   text-align: center;
-  font-size: 3rem;
+  font-size: 4rem;
   letter-spacing: .5rem;
   color: #fff;
-  margin: 5rem 0;
+  margin: 3rem 0;
   position: absolute;
   z-index: 1;
   left: 0;
@@ -19,25 +19,27 @@
 .court-scene {
   pointer-events: none;
   position: absolute;
-  top: 0;
+  top: -1rem;
   width: 100%;
   perspective: 800px;
   animation: track-baseline 7s linear 2 10s;
   overflow: hidden;
+  opacity: .9;
 
   img {
-    max-height: calc(100vh - 6rem);
+    max-height: calc(100vh - 5.5rem);
     animation: swoop-down 8s ease-in 2s forwards;
-    background-color: #0b0;
     width: 100%;
   }
 }
 
 .ball {
   text-align: center;
-  position: relative;
-  top: 50%;
-  transform: translateY(-70%);
+  position: fixed;
+  bottom: 2.5rem;
+  left: 0;
+  right: 0;
+  animation: rolling-ball 3s cubic-bezier(.6, 1, .6, 1) forwards;
 
   img {
     width: 100px;
@@ -62,4 +64,9 @@
   20% { transform: rotateX(60deg); }
   80% { transform: rotateX(60deg) rotateZ(180deg); }
   100% { transform: rotateX(70deg) rotateZ(180deg); }
+}
+
+@keyframes rolling-ball {
+  from { transform: translateX(calc(50vw + 5rem)); }
+  to { transform: translateX(0) rotateZ(-720deg); }
 }
