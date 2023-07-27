@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Analyse" Version="1.0.16" />
+    <PackageReference Include="Analyse" Version="1.0.17" />
     <PackageReference Include="FluentErrors" Version="1.0.3" />
   </ItemGroup>
 
