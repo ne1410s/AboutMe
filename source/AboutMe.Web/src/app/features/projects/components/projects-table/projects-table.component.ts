@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ProjectMetadataService } from '../../services/project-metadata.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-projects-table',
