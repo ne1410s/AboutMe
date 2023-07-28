@@ -64,7 +64,7 @@ jobs:
         echo SHA_IAC_BICEP=$(sha256sum <(find ./extract/iac/bicep -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
         echo SHA_SRC_API=$(sha256sum <(find ./extract/source/api -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
         echo SHA_SRC_UI=$(sha256sum <(find ./extract/source/ui -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
-        echo SHA_SRC_DB=$(sha256sum <(find ./extract/source/db -type f -exec sha256sum {} +) | cut -b 1-64) >> $GITHUB_ENV
+        echo SHA_SRC_DB=$(<extract/source/db/sha.txt) >> $GITHUB_ENV
     - id: get_map
       name: Get map
       continue-on-error: true
