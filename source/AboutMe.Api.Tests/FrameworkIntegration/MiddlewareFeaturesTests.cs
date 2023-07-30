@@ -42,4 +42,17 @@ public class MiddlewareFeaturesTests
         // Assert
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
     }
+
+    [Fact]
+    public async Task ValidRequest_WhenRequested_ReturnsSuccess()
+    {
+        // Arrange
+        const string serviceUrl = "forecasts";
+
+        // Act
+        var response = await this.client.GetAsync(serviceUrl);
+
+        // Assert
+        response.IsSuccessStatusCode.Should().BeTrue();
+    }
 }

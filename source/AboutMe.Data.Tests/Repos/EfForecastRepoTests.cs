@@ -18,7 +18,7 @@ public class EfForecastRepoTests
         // Arrange
         var db = TestHelper.GetDb();
         var expected = new ForecastModel(5, "Cold");
-        db.Forecasts.Add(expected);
+        db.Forecasts.AddRange(new(100, "Hot"), expected);
         db.SaveChanges();
         var sut = new EfForecastRepo(db);
 

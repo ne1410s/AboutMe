@@ -23,9 +23,10 @@ public class EfForecastRepo : IForecastRepo
     }
 
     /// <inheritdoc/>
-    public async Task<ForecastModel> GetItem()
+    public async Task<ForecastModel?> GetItem()
     {
-        var result = await this.db.Forecasts.FirstOrDefaultAsync();
-        return result!;
+        return await this.db.Forecasts
+            .OrderBy(r => r.TemperatureC)
+            .FirstOrDefaultAsync();
     }
 }
