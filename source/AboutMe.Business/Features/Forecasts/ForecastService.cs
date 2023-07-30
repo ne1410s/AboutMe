@@ -19,5 +19,5 @@ public class ForecastService : IForecastService
     }
 
     /// <inheritdoc/>
-    public async Task<ForecastModel> GetItem() => await this.forecastRepo.GetItem();
+    public async Task<ForecastModel?> GetItem() => await this.forecastRepo.GetItem();
 }

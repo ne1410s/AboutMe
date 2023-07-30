@@ -13,5 +13,5 @@ public interface IForecastRepo
     /// Gets a forecast.
     /// </summary>
     /// <returns>The forecast.</returns>
-    public Task<ForecastModel> GetItem();
+    public Task<ForecastModel?> GetItem();
 }
