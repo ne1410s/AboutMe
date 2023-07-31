@@ -9,7 +9,10 @@ import { Forecast } from '../models/forecast.interface';
 export class ApiService {
   private readonly baseUrl = `${this.env.apiUrl}`;
 
-  constructor(private http: HttpClient, private env: EnvService) {}
+  constructor(
+    private http: HttpClient,
+    private env: EnvService
+  ) {}
 
   getForecast(): Observable<Forecast> {
     return this.http.get<Forecast>(`${this.baseUrl}/forecasts`);

@@ -18,43 +18,46 @@ const ROUTES: Routes = [
   },
   {
     path: 'acme',
-    loadChildren: () => import('./project-acme/project-acme.module').then(m => m.ProjectAcmeModule),
-    canActivate: [ canActivateProject ],
+    loadChildren: () => import('./project-acme/project-acme.module').then((m) => m.ProjectAcmeModule),
+    canActivate: [canActivateProject],
   },
   {
     path: 'comanche',
-    loadChildren: () => import('./project-comanche/project-comanche.module').then(m => m.ProjectComancheModule),
-    canActivate: [ canActivateProject ],
+    loadChildren: () => import('./project-comanche/project-comanche.module').then((m) => m.ProjectComancheModule),
+    canActivate: [canActivateProject],
   },
   {
     path: 'crypto-stream',
-    loadChildren: () => import('./project-crypto-stream/project-crypto-stream.module').then(m => m.ProjectCryptoStreamModule),
-    canActivate: [ canActivateProject ],
+    loadChildren: () =>
+      import('./project-crypto-stream/project-crypto-stream.module').then((m) => m.ProjectCryptoStreamModule),
+    canActivate: [canActivateProject],
   },
   {
     path: 'custom-elements',
-    loadChildren: () => import('./project-custom-elements/project-custom-elements.module').then(m => m.ProjectCustomElementsModule),
-    canActivate: [ canActivateProject ],
+    loadChildren: () =>
+      import('./project-custom-elements/project-custom-elements.module').then((m) => m.ProjectCustomElementsModule),
+    canActivate: [canActivateProject],
   },
   {
     path: 'fluent-errors',
-    loadChildren: () => import('./project-fluent-errors/project-fluent-errors.module').then(m => m.ProjectFluentErrorsModule),
-    canActivate: [ canActivateProject ],
+    loadChildren: () =>
+      import('./project-fluent-errors/project-fluent-errors.module').then((m) => m.ProjectFluentErrorsModule),
+    canActivate: [canActivateProject],
   },
   {
     path: 'griddler',
-    loadChildren: () => import('./project-griddler/project-griddler.module').then(m => m.ProjectGriddlerModule),
-    canActivate: [ canActivateProject ],
+    loadChildren: () => import('./project-griddler/project-griddler.module').then((m) => m.ProjectGriddlerModule),
+    canActivate: [canActivateProject],
   },
   {
     path: 'libra',
-    loadChildren: () => import('./project-libra/project-libra.module').then(m => m.ProjectLibraModule),
-    canActivate: [ canActivateProject ],
+    loadChildren: () => import('./project-libra/project-libra.module').then((m) => m.ProjectLibraModule),
+    canActivate: [canActivateProject],
   },
   {
     path: 'psr',
-    loadChildren: () => import('./project-psr/project-psr.module').then(m => m.ProjectPsrModule),
-    canActivate: [ canActivateProject ],
+    loadChildren: () => import('./project-psr/project-psr.module').then((m) => m.ProjectPsrModule),
+    canActivate: [canActivateProject],
   },
   {
     path: '**',
@@ -63,10 +66,7 @@ const ROUTES: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(ROUTES),
-  ],
+  imports: [CommonModule, RouterModule.forChild(ROUTES)],
   exports: [RouterModule],
 })
 export class ProjectsRoutingModule {}

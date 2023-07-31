@@ -5,15 +5,8 @@ import { ProjectFluentErrorsComponent } from './components/project-fluent-errors
 import { ProjectFluentErrorsRoutingModule } from './project-fluent-errors-routing.module';
 
 @NgModule({
-  declarations: [
-    ProjectFluentErrorsComponent
-  ],
-  imports: [
-    CommonModule,
-    ProjectFluentErrorsRoutingModule,
-  ],
-  exports: [
-    ProjectFluentErrorsComponent
-  ],
+  declarations: [ProjectFluentErrorsComponent],
+  imports: [CommonModule, ProjectFluentErrorsRoutingModule],
+  exports: [ProjectFluentErrorsComponent],
 })
 export class ProjectFluentErrorsModule {}

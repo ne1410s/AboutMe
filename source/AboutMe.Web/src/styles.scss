@@ -3,8 +3,8 @@
 :root {
   --accent-1-hue: rgba(0, 180, 0, 1);
   --accent-2-hue: rgba(160, 0, 160, 1);
-  --body-hue: rgba(0, 0, 0, .7);
-  --body-hue-lt: rgba(0, 0, 0, .3);
+  --body-hue: rgba(0, 0, 0, 0.7);
+  --body-hue-lt: rgba(0, 0, 0, 0.3);
 }
 
 html,
@@ -29,40 +29,42 @@ img {
 }
 
 .seriously-3d {
-  text-shadow: 0 1px 0 #ccc, 
-               0 2px 0 #c9c9c9,
-               0 3px 0 #bbb,
-               0 4px 0 #b9b9b9,
-               0 5px 0 #aaa,
-               0 6px 1px rgba(0,0,0,.1),
-               0 0 5px rgba(0,0,0,.1),
-               0 1px 3px rgba(0,0,0,.3),
-               0 3px 5px rgba(0,0,0,.2),
-               0 5px 10px rgba(0,0,0,.25),
-               0 10px 10px rgba(0,0,0,.2),
-               0 20px 20px rgba(0,0,0,.15);
+  text-shadow:
+    0 1px 0 #ccc,
+    0 2px 0 #c9c9c9,
+    0 3px 0 #bbb,
+    0 4px 0 #b9b9b9,
+    0 5px 0 #aaa,
+    0 6px 1px rgba(0, 0, 0, 0.1),
+    0 0 5px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    0 3px 5px rgba(0, 0, 0, 0.2),
+    0 5px 10px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.2),
+    0 20px 20px rgba(0, 0, 0, 0.15);
 }
 
 .lawn-stripes {
   background-image: linear-gradient(
     90deg,
-   #4af52c 25%,
-   #08e600 25%,
-   #08e600 50%,
-   #4af52c 50%,
-   #4af52c 75%,
-   #08e600 75%,
-   #08e600 100%);
+    #4af52c 25%,
+    #08e600 25%,
+    #08e600 50%,
+    #4af52c 50%,
+    #4af52c 75%,
+    #08e600 75%,
+    #08e600 100%
+  );
   background-size: 320px 320px;
 }
 
 .section {
-  background-color: rgba(255, 255, 255, .85);
-  border-radius: .5rem;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 0.5rem;
   padding: 1rem;
   margin-bottom: 2rem;
   box-shadow: 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.3);
-  transition: all .6s;
+  transition: all 0.6s;
   position: relative;
 
   &:hover {
@@ -78,7 +80,9 @@ img {
     text-align: center;
   }
 
-  > h1, h2, h3 {
+  > h1,
+  h2,
+  h3 {
     margin: 0;
     color: var(--accent-2-hue);
   }
@@ -89,8 +93,9 @@ img {
   top: 50%;
   left: 0;
   right: 0;
+  opacity: 0.5;
   text-align: center;
   transform: translateY(-50%);
   container-type: inline-size;
-  font-size: 40cqw;
+  font-size: 30cqw;
 }

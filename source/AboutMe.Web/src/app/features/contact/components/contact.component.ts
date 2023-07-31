@@ -7,9 +7,7 @@ import { ApiService } from '../../shared/services/api.service';
   styleUrls: ['./contact.component.scss'],
 })
 export class ContactComponent {
-  
   forecast$ = this.api.getForecast();
 
-  constructor(private api: ApiService) {
-  }
+  constructor(private api: ApiService) {}
 }

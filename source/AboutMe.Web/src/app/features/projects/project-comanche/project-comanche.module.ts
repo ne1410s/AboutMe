@@ -5,15 +5,8 @@ import { ProjectComancheComponent } from './components/project-comanche.componen
 import { ProjectComancheRoutingModule } from './project-comanche-routing.module';
 
 @NgModule({
-  declarations: [
-    ProjectComancheComponent
-  ],
-  imports: [
-    CommonModule,
-    ProjectComancheRoutingModule,
-  ],
-  exports: [
-    ProjectComancheComponent
-  ],
+  declarations: [ProjectComancheComponent],
+  imports: [CommonModule, ProjectComancheRoutingModule],
+  exports: [ProjectComancheComponent],
 })
 export class ProjectComancheModule {}

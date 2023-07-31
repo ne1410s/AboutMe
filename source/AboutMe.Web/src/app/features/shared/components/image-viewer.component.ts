@@ -7,7 +7,6 @@ import { ImageView } from '../models/image-view.interface';
   styleUrls: ['./image-viewer.component.scss'],
 })
 export class ImageViewerComponent {
-
   @Input()
   images!: ImageView[];
 
@@ -30,7 +29,7 @@ export class ImageViewerComponent {
 
   expandToImage(index: number): void {
     if (!this.fullScreen) {
-      this.toggleFullScreen(); 
+      this.toggleFullScreen();
       this.setIndex(index);
     }
   }

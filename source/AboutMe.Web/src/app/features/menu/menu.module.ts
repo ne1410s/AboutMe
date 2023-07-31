@@ -6,17 +6,8 @@ import { MenuPageComponent } from './components/menu-page/menu-page.component';
 import { MenuComponent } from './components/menu/menu.component';
 
 @NgModule({
-  declarations: [
-    MenuPageComponent,
-    MenuComponent,
-  ],
-  imports: [
-    CommonModule,
-    MenuRoutingModule,
-  ],
-  exports: [
-    MenuPageComponent,
-    MenuComponent,
-  ],
+  declarations: [MenuPageComponent, MenuComponent],
+  imports: [CommonModule, MenuRoutingModule],
+  exports: [MenuPageComponent, MenuComponent],
 })
 export class MenuModule {}

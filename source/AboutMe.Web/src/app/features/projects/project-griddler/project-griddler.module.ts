@@ -5,15 +5,8 @@ import { ProjectGriddlerComponent } from './components/project-griddler.componen
 import { ProjectGriddlerRoutingModule } from './project-griddler-routing.module';
 
 @NgModule({
-  declarations: [
-    ProjectGriddlerComponent
-  ],
-  imports: [
-    CommonModule,
-    ProjectGriddlerRoutingModule,
-  ],
-  exports: [
-    ProjectGriddlerComponent
-  ],
+  declarations: [ProjectGriddlerComponent],
+  imports: [CommonModule, ProjectGriddlerRoutingModule],
+  exports: [ProjectGriddlerComponent],
 })
 export class ProjectGriddlerModule {}

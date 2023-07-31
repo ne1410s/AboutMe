@@ -5,15 +5,8 @@ import { ContactComponent } from './components/contact.component';
 import { ContactRoutingModule } from './contact-routing.module';
 
 @NgModule({
-  declarations: [
-    ContactComponent
-  ],
-  imports: [
-    CommonModule,
-    ContactRoutingModule,
-  ],
-  exports: [
-    ContactComponent
-  ],
+  declarations: [ContactComponent],
+  imports: [CommonModule, ContactRoutingModule],
+  exports: [ContactComponent],
 })
 export class ContactModule {}

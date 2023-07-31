@@ -5,15 +5,8 @@ import { ProjectCryptoStreamComponent } from './components/project-crypto-stream
 import { ProjectCryptoStreamRoutingModule } from './project-crypto-stream-routing.module';
 
 @NgModule({
-  declarations: [
-    ProjectCryptoStreamComponent
-  ],
-  imports: [
-    CommonModule,
-    ProjectCryptoStreamRoutingModule
-  ],
-  exports: [
-    ProjectCryptoStreamComponent
-  ],
+  declarations: [ProjectCryptoStreamComponent],
+  imports: [CommonModule, ProjectCryptoStreamRoutingModule],
+  exports: [ProjectCryptoStreamComponent],
 })
 export class ProjectCryptoStreamModule {}

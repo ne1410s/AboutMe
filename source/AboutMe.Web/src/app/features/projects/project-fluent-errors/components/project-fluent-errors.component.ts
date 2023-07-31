@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './project-fluent-errors.component.html',
   styleUrls: ['./project-fluent-errors.component.scss'],
 })
-export class ProjectFluentErrorsComponent {
-}
+export class ProjectFluentErrorsComponent {}

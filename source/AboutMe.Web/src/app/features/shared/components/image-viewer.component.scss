@@ -1,13 +1,13 @@
 .viewer {
   position: relative;
-  
+
   &.full-screen {
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, .65);
+    background-color: rgba(0, 0, 0, 0.65);
     transition: background-color 1s;
     overflow: hidden;
     display: flex;
@@ -49,14 +49,14 @@
   .icon {
     position: absolute;
     cursor: pointer;
-    padding: 0 .5rem .22rem;
+    padding: 0 0.5rem 0.22rem;
     font-size: 2rem;
     color: #fff;
     background-color: #000;
-    opacity: .5;
+    opacity: 0.5;
     z-index: 10;
     line-height: 1;
-    transition: opacity .6s;
+    transition: opacity 0.6s;
 
     &:hover {
       opacity: 1;
@@ -71,14 +71,14 @@
       top: 50%;
       right: 0;
       transform: translateY(-50%);
-      padding: 3rem .5rem 3.22rem;
+      padding: 3rem 0.5rem 3.22rem;
     }
 
     &.prev {
       top: 50%;
       left: 0;
       transform: translateY(-50%);
-      padding: 3rem .5rem 3.22rem;
+      padding: 3rem 0.5rem 3.22rem;
     }
   }
 
@@ -97,9 +97,9 @@
         color: #fff;
         background-color: #000;
         text-transform: uppercase;
-        opacity: .7;
-        padding: .5rem;
-        transition: opacity .6s;
+        opacity: 0.7;
+        padding: 0.5rem;
+        transition: opacity 0.6s;
 
         &:hover {
           opacity: 1;

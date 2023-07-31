@@ -4,6 +4,6 @@ export class ProjectMetadata {
     public title: string,
     public link: string,
     public description: string,
-    public enabled: boolean = true,
+    public enabled: boolean = true
   ) {}
 }

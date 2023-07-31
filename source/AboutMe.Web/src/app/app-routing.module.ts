@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 const APP_ROUTES = [
   {
     path: '',
-    loadChildren: () => import('./features/menu/menu.module').then(m => m.MenuModule)
+    loadChildren: () => import('./features/menu/menu.module').then((m) => m.MenuModule),
   },
   {
     path: '**',

@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './project-crypto-stream.component.html',
   styleUrls: ['./project-crypto-stream.component.scss'],
 })
-export class ProjectCryptoStreamComponent {
-}
+export class ProjectCryptoStreamComponent {}

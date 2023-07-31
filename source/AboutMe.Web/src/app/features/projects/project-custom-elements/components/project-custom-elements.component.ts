@@ -7,7 +7,6 @@ import { Popup } from '@ne1410s/popup';
   styleUrls: ['./project-custom-elements.component.scss'],
 })
 export class ProjectCustomElementsComponent {
-
   @ViewChild('popup') popup!: ElementRef<Popup>;
 
   onItemSelect(event: any) {
