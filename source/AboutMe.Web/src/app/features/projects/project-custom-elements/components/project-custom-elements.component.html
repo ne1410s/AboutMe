@@ -1,31 +1,37 @@
-<p>project: custom elements</p>
+<section class="score">
+  <p>40 - 40</p>
+</section>
 
-<div>
+<section class="section">
+  <h2>Custom Elements</h2>
+  <p>
+    Introduction to the project...
+  </p>
   <p>Custom context menu.</p>
   <ne14-menu>
     <li>Item 1</li>
     <li><a href="https://bing.com" target="_blank">Bing (New)</a></li>
     <li class="disabled">Item 3</li>
   </ne14-menu>
-</div>
+</section>
 
-<div>
+<section class="section">
   <p>Custom context menu ("dark mode").</p>
   <ne14-menu class="dark" (itemselect)="onItemSelect($event)">
     <li>Item 1</li>
     <li class="split"></li>
     <li aria-keyshortcuts="Alt+F4">Exit</li>
   </ne14-menu>
-</div>
 
-<input type="button" (click)="onButtonClick()" value="Show popup"/>
-<ne14-pop move resize #popup>
-  <p>This popup can be...</p>
-  <ol>
-    <li>Moved</li>
-    <li>Resized</li>
-    <li>Dismissed</li>
-    <li>Customised!</li>
-  </ol>
-  <p>...without <i>too</i> much fuss!</p>
-</ne14-pop>
+  <input type="button" (click)="onButtonClick()" value="Show popup" />
+  <ne14-pop move resize #popup>
+    <p>This popup can be...</p>
+    <ol>
+      <li>Moved</li>
+      <li>Resized</li>
+      <li>Dismissed</li>
+      <li>Customised!</li>
+    </ol>
+    <p>...without <i>too</i> much fuss...</p>
+  </ne14-pop>
+</section>
