@@ -5,15 +5,8 @@ import { ProjectAcmeComponent } from './components/project-acme.component';
 import { ProjectAcmeRoutingModule } from './project-acme-routing.module';
 
 @NgModule({
-  declarations: [
-    ProjectAcmeComponent
-  ],
-  imports: [
-    CommonModule,
-    ProjectAcmeRoutingModule,
-  ],
-  exports: [
-    ProjectAcmeComponent
-  ],
+  declarations: [ProjectAcmeComponent],
+  imports: [CommonModule, ProjectAcmeRoutingModule],
+  exports: [ProjectAcmeComponent],
 })
 export class ProjectAcmeModule {}

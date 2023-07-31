@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './project-psr.component.html',
   styleUrls: ['./project-psr.component.scss'],
 })
-export class ProjectPsrComponent {
-}
+export class ProjectPsrComponent {}

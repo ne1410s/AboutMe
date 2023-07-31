@@ -16,10 +16,7 @@ const ROUTES = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(ROUTES),
-  ],
+  imports: [CommonModule, RouterModule.forChild(ROUTES)],
   exports: [RouterModule],
 })
 export class AboutRoutingModule {}

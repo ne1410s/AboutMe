@@ -5,10 +5,12 @@ import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 
 describe('RootComponent', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    declarations: [RootComponent, HeaderComponent, FooterComponent],
-    imports: [RouterModule]
-  }));
+  beforeEach(() =>
+    TestBed.configureTestingModule({
+      declarations: [RootComponent, HeaderComponent, FooterComponent],
+      imports: [RouterModule],
+    })
+  );
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(RootComponent);

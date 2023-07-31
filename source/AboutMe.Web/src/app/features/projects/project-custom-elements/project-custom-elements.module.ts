@@ -5,18 +5,9 @@ import { ProjectCustomElementsComponent } from './components/project-custom-elem
 import { ProjectCustomElementsRoutingModule } from './project-custom-elements-routing.module';
 
 @NgModule({
-  declarations: [
-    ProjectCustomElementsComponent
-  ],
-  imports: [
-    CommonModule,
-    ProjectCustomElementsRoutingModule,
-  ],
-  exports: [
-    ProjectCustomElementsComponent
-  ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ],
+  declarations: [ProjectCustomElementsComponent],
+  imports: [CommonModule, ProjectCustomElementsRoutingModule],
+  exports: [ProjectCustomElementsComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProjectCustomElementsModule {}

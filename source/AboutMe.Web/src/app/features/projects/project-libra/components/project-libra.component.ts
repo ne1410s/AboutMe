@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './project-libra.component.html',
   styleUrls: ['./project-libra.component.scss'],
 })
-export class ProjectLibraComponent {
-}
+export class ProjectLibraComponent {}

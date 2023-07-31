@@ -5,15 +5,8 @@ import { ProjectPsrComponent } from './components/project-psr.component';
 import { ProjectPsrRoutingModule } from './project-psr-routing.module';
 
 @NgModule({
-  declarations: [
-    ProjectPsrComponent
-  ],
-  imports: [
-    CommonModule,
-    ProjectPsrRoutingModule,
-  ],
-  exports: [
-    ProjectPsrComponent
-  ],
+  declarations: [ProjectPsrComponent],
+  imports: [CommonModule, ProjectPsrRoutingModule],
+  exports: [ProjectPsrComponent],
 })
 export class ProjectPsrModule {}

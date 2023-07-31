@@ -1,11 +1,11 @@
 <a routerLink="/">ne1410s</a>
 <ul>
-  <li><a routerLink="/" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+  <li><a routerLink="/" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }">Home</a></li>
   <li><a routerLink="/about" routerLinkActive="selected">About</a></li>
   <li>
     <a routerLink="/projects" routerLinkActive="selected">Projects</a>
     <ul>
-      <ng-container *ngFor="let project of (projects$ | async)">
+      <ng-container *ngFor="let project of projects$ | async">
         <li *ngIf="project.enabled">
           <a routerLink="/projects/{{ project.link }}" routerLinkActive="selected">{{ project.title }}</a>
         </li>

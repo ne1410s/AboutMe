@@ -17,7 +17,7 @@ ul {
 
 li {
   position: relative;
-  background-color: rgba(255, 255, 255, .8);
+  background-color: rgba(255, 255, 255, 0.8);
 
   ul {
     display: none;
@@ -31,22 +31,20 @@ li {
 }
 
 a {
-
   color: var(--body-hue);
   &.selected {
     color: var(--accent-1-hue);
   }
-  
+
   display: block;
   text-decoration: none;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
 
   &:not(ul a) {
     color: var(--accent-2-hue);
   }
 
   &:is(ul a) {
-
     &:hover {
       background-color: #eee;
     }
@@ -81,6 +79,6 @@ a {
   }
 
   a {
-    padding: .5rem;
+    padding: 0.5rem;
   }
 }

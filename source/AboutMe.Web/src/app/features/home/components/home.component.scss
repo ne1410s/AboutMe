@@ -7,7 +7,7 @@
 .logo {
   text-align: center;
   font-size: 4rem;
-  letter-spacing: .5rem;
+  letter-spacing: 0.5rem;
   color: #fff;
   margin: 3rem 0;
   position: absolute;
@@ -24,7 +24,7 @@
   perspective: 800px;
   animation: track-baseline 7s linear 2 10s;
   overflow: hidden;
-  opacity: .9;
+  opacity: 0.9;
 
   img {
     max-height: calc(100vh - 5.5rem);
@@ -39,34 +39,52 @@
   bottom: 2.5rem;
   left: 0;
   right: 0;
-  animation: rolling-ball 3s cubic-bezier(.6, 1, .6, 1) forwards;
+  animation: rolling-ball 3s cubic-bezier(0.6, 1, 0.6, 1) forwards;
 
   img {
     width: 100px;
     border-radius: 100%;
-    box-shadow: .5rem .2rem 1rem rgba(0, 0, 0, .3);
-    transition: box-shadow .6s;
+    box-shadow: 0.5rem 0.2rem 1rem rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.6s;
 
     &:hover {
-      box-shadow: 0 0 0 rgba(0, 0, 0, .3);
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0.3);
     }
   }
 }
 
 @keyframes track-baseline {
-  0% { perspective-origin: 50% 50%; }
-  25% { perspective-origin: 60% 50%; }
-  75% { perspective-origin: 40% 50%; }
+  0% {
+    perspective-origin: 50% 50%;
+  }
+  25% {
+    perspective-origin: 60% 50%;
+  }
+  75% {
+    perspective-origin: 40% 50%;
+  }
 }
 
 @keyframes swoop-down {
-  0% { transform: rotateX(0deg); }
-  20% { transform: rotateX(60deg); }
-  80% { transform: rotateX(60deg) rotateZ(180deg); }
-  100% { transform: rotateX(70deg) rotateZ(180deg); }
+  0% {
+    transform: rotateX(0deg);
+  }
+  20% {
+    transform: rotateX(60deg);
+  }
+  80% {
+    transform: rotateX(60deg) rotateZ(180deg);
+  }
+  100% {
+    transform: rotateX(70deg) rotateZ(180deg);
+  }
 }
 
 @keyframes rolling-ball {
-  from { transform: translateX(calc(50vw + 5rem)); }
-  to { transform: translateX(0) rotateZ(-720deg); }
+  from {
+    transform: translateX(calc(50vw + 5rem));
+  }
+  to {
+    transform: translateX(0) rotateZ(-720deg);
+  }
 }

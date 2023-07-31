@@ -9,19 +9,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
-  declarations: [
-    RootComponent,
-    HeaderComponent,
-    FooterComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    SharedModule,
-  ],
-  providers: [
-    EnvServiceProvider
-  ],
-  bootstrap: [RootComponent]
+  declarations: [RootComponent, HeaderComponent, FooterComponent],
+  imports: [BrowserModule, AppRoutingModule, SharedModule],
+  providers: [EnvServiceProvider],
+  bootstrap: [RootComponent],
 })
-export class AppModule { }
+export class AppModule {}

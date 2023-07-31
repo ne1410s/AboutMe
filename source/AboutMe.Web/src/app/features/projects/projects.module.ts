@@ -6,17 +6,8 @@ import { ProjectsPageComponent } from './components/projects-page/projects-page.
 import { ProjectsTableComponent } from './components/projects-table/projects-table.component';
 
 @NgModule({
-  declarations: [
-    ProjectsPageComponent,
-    ProjectsTableComponent,
-  ],
-  imports: [
-    CommonModule,
-    ProjectsRoutingModule,
-  ],
-  exports: [
-    ProjectsPageComponent,
-    ProjectsTableComponent,
-  ],
+  declarations: [ProjectsPageComponent, ProjectsTableComponent],
+  imports: [CommonModule, ProjectsRoutingModule],
+  exports: [ProjectsPageComponent, ProjectsTableComponent],
 })
 export class ProjectsModule {}

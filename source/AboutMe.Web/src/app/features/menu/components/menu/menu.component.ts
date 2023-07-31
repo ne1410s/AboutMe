@@ -8,7 +8,6 @@ import { ProjectMetadataService } from 'src/app/features/projects/services/proje
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent {
-
   projects$ = this.projectService.getProjects();
 
   constructor(private projectService: ProjectMetadataService) {}

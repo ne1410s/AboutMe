@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './project-acme.component.html',
   styleUrls: ['./project-acme.component.scss'],
 })
-export class ProjectAcmeComponent {
-}
+export class ProjectAcmeComponent {}

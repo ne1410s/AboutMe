@@ -9,12 +9,12 @@ import { ProjectMetadataService } from '../../services/project-metadata.service'
   styleUrls: ['./projects-table.component.scss'],
 })
 export class ProjectsTableComponent {
-
   projects$ = this.projectService.getProjects();
 
   constructor(
     private router: Router,
-    private projectService: ProjectMetadataService) {}
+    private projectService: ProjectMetadataService
+  ) {}
 
   routeToProject(link: string) {
     this.router.navigate([`/projects/${link}`]);

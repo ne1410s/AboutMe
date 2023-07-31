@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './project-griddler.component.html',
   styleUrls: ['./project-griddler.component.scss'],
 })
-export class ProjectGriddlerComponent {
-}
+export class ProjectGriddlerComponent {}

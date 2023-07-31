@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './project-comanche.component.html',
   styleUrls: ['./project-comanche.component.scss'],
 })
-export class ProjectComancheComponent {
-}
+export class ProjectComancheComponent {}
