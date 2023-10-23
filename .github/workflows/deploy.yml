@@ -95,6 +95,7 @@ jobs:
       if: fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].iac_bicep != env.SHA_IAC_BICEP
       uses: azure/arm-deploy@v1
       with:
+        scope: resourcegroup
         subscriptionId: ${{ secrets.AZURE_SUB_ID }}
         resourceGroupName: ${{ env.ENV_PREFIX }}-rg-${{ secrets.AZURE_WORKLOAD }}-${{ secrets.AZURE_RG_LOC }}
         template: extract/iac/bicep/main.bicep
@@ -125,14 +126,14 @@ jobs:
       id: download_profile
       if: fromJson(steps.read_map.outputs.map)[env.ENV_PREFIX].src_api != env.SHA_SRC_API
       run: |
-        pubProfileXml=$(az webapp deployment list-publishing-profiles -g ${{ env.ENV_PREFIX }}-rg-${{ secrets.AZURE_WORKLOAD }}-${{ secrets.AZURE_RG_LOC }} -n "${{ env.ENV_PREFIX }}-app-${{ secrets.AZURE_WORKLOAD }}-${{ secrets.AZURE_RG_LOC }}" --xml)
+        pubProfileXml=$(az webapp deployment list-publishing-profiles -g ${{ env.ENV_PREFIX }}-rg-${{ secrets.AZURE_WORKLOAD }}-${{ secrets.AZURE_RG_LOC }} -n "${{ env.ENV_PREFIX }}-app-my${{ secrets.AZURE_WORKLOAD }}-${{ secrets.AZURE_RG_LOC }}" --xml)
         echo "::add-mask::$pubProfileXml"
         echo PUB_PROFILE_XML=$pubProfileXml >> $GITHUB_ENV
     - name: Deployable source/api - publish (if changed)
       if: steps.download_profile.outcome == 'success'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ${{ env.ENV_PREFIX }}-app-${{ secrets.AZURE_WORKLOAD }}-${{ secrets.AZURE_RG_LOC }}
+        app-name: ${{ env.ENV_PREFIX }}-app-my${{ secrets.AZURE_WORKLOAD }}-${{ secrets.AZURE_RG_LOC }}
         package: extract/source/api
         publish-profile: ${{ env.PUB_PROFILE_XML }}
 
