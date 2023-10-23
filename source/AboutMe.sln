@@ -23,9 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		stryker-config.json = stryker-config.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AboutMe.Data", "AboutMe.Data\AboutMe.Data.csproj", "{85F29EC6-27BF-4765-A9E7-CA978DF5EADC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AboutMe.Data", "AboutMe.Data\AboutMe.Data.csproj", "{85F29EC6-27BF-4765-A9E7-CA978DF5EADC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AboutMe.Data.Tests", "AboutMe.Data.Tests\AboutMe.Data.Tests.csproj", "{962565BE-8637-4FD7-8296-08B341A10F86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AboutMe.Data.Tests", "AboutMe.Data.Tests\AboutMe.Data.Tests.csproj", "{962565BE-8637-4FD7-8296-08B341A10F86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
