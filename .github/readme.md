@@ -70,15 +70,16 @@ Additionally, to re-use the PAT for local workstation development (to pull in th
 ### Run this script
 ```powershell
 
-$subId=az account list --all --query "[?starts_with(name, 'Paul Jones VS Pro')].{id:id}" -o tsv; `
+$subId=az account list --all --query "[?starts_with(name, 'Main')].{id:id}" -o tsv; `
 az account set -s $subId; `
 
 $cloudenv="dev"; `
 $workload="about"; `
 $location="westeurope"; `
 $locationShort="weu"; `
+$sharedWorkload="lvshared"; `
 
-$scmSpName="gh_$workload"; `
+$scmSpName="ghscm_$workload"; `
 $scmSpId=az ad sp list --disp $scmSpName --only-show-errors --query '[].id' -o tsv; `
 $scmCreds=""; `
 if ( !$scmSpId ) { `
@@ -87,15 +88,14 @@ if ( !$scmSpId ) { `
   $scmSpId=az ad sp list --disp $scmSpName --only-show-errors --query '[].id' -o tsv; `
 } `
 $rgName="$cloudenv-rg-$workload-$locationShort"; `
+$sharedRgName="$cloudenv-rg-$sharedWorkload-$locationShort"; `
 $rgId=az group create -l $location -n $rgName --tags workload=$workload env=$cloudenv --query id -o tsv; `
-$sharedRgId=az group show -g "$($cloudenv)-rg-shared-weu" --query id -o tsv; `
-$acrId=az acr show -n "$($cloudenv)acrsharedweu" -g "$($cloudenv)-rg-shared-weu" --query id -o tsv; `
-$scmRgContrib=az role assignment create --assignee-object-id $scmSpId --assignee-principal-type ServicePrincipal --role contributor --scope $rgId --only-show-errors; `
-$scmRgRoles=az role assignment create --assignee-object-id $scmSpId --assignee-principal-type ServicePrincipal --role 18d7d88d-d35e-4fb5-a5c3-7773c20a72d9 --scope $rgId --only-show-errors; `
-$scmSharedRoles=az role assignment create --assignee-object-id $scmSpId --assignee-principal-type ServicePrincipal --role 18d7d88d-d35e-4fb5-a5c3-7773c20a72d9 --scope $sharedRgId --only-show-errors; `
-$scmAcrPuller=az role assignment create --assignee-object-id $scmSpId --assignee-principal-type ServicePrincipal --role acrpull --scope $acrId --only-show-errors; `
-$engAdId=az ad group create --display-name engineers --mail-nickname engineers --only-show-errors --query id -o tsv; `
-$adminsAdId=az ad group create --display-name admins --mail-nickname admins --only-show-errors --query id -o tsv; `
+$sharedRgId=az group show -g $sharedRgName --query id -o tsv; `
+$scmRgOwner=az role assignment create --assignee-object-id $scmSpId --assignee-principal-type ServicePrincipal --role owner --scope $rgId --only-show-errors; `
+$scmSharedRgOwner=az role assignment create --assignee-object-id $scmSpId --assignee-principal-type ServicePrincipal --role owner --scope $sharedRgId --only-show-errors; `
+
+$engAdId=az ad group list --display-name engineers --query '[].id' -o tsv; `
+$adminsAdId=az ad group list --display-name admins --query '[].id' -o tsv; `
 
 clear; `
 echo "--------------------------------------------------------------------------------"; `
@@ -105,7 +105,6 @@ echo "AZURE_ENG_ID:     $engAdId"; `
 echo "AZURE_ADMINS_ID:  $adminsAdId"; `
 echo "AZURE_SUB_ID:     $subId"; `
 echo "AZURE_SCM_ID:     $scmSpId"; `
-echo "AZURE_SQL_ADM_PW: <GENERATE SMTH>"; `
 echo "AZURE_SQL_CONN:   <SUPPLY SMTH>"; `
 echo "AZURE_CI_PREFIX:  <e.g. dev>"; `
 echo "API_BASE_URL:     <ADD SMTH>"; `

@@ -1,11 +1,6 @@
 // -----------------------------------------------------------------------------
 // Specific Parameters
 // -----------------------------------------------------------------------------
-@description('Sql admin password.')
-@minLength(36)
-@secure()
-param sqlAdminPass string
-
 @description('Sql connection string.')
 @secure()
 param sqlConnection string
@@ -34,7 +29,7 @@ var locationShort = split(resourceGroup().name, '-')[3]
 var suffix = length('${workload}-${locationShort}') < 3 ? 'xyz' : '${workload}-${locationShort}'
 
 @description('Amalgam of the shared workload and the (short) location name.')
-var sharedSuffix = 'shared-${locationShort}'
+var sharedSuffix = 'lvshared-${locationShort}'
 
 @description('The resource tags.')
 var tags = resourceGroup().tags
@@ -42,14 +37,15 @@ var tags = resourceGroup().tags
 @description('The final app config endpoint to use.')
 var finalAppConfigEndpoint = empty(appConfigEndpoint) ? 'https://${prefix}-appconfig-${sharedSuffix}.azconfig.io' : appConfigEndpoint
 
-//@description('The name of shared resource group.')
-//var sharedRgName = '${prefix}-rg-${sharedSuffix}'
+@description('The name of shared resource group.')
+var sharedRgName = '${prefix}-rg-${sharedSuffix}'
 
 // -----------------------------------------------------------------------------
 // Resources
 // -----------------------------------------------------------------------------
-module appInsightsDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/diagnostics/app-insights:v1' = {
+module appInsightsDeploy 'br:devacrlvsharedweu.azurecr.io/bicep/modules/diagnostics/app-insights:v1' = {
   name: 'appInsightsDeploy'
+  scope: resourceGroup(sharedRgName)
   params: {
     location: location
     prefix: prefix
@@ -58,40 +54,7 @@ module appInsightsDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/diagnostic
   }
 }
 
-module storageAccountDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/storage/storage-account:v1' = {
-  name: 'storageAccountDeploy'
-  params: {
-    prefix: prefix
-    suffix: suffix
-    location: location
-    tags: tags
-  }
-}
-
-module sqlServerDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/database/sqldb-server:v1' = {
-  name: 'sqlServerDeploy'
-  params: {
-    adminLogin: 'about_admin'
-    adminPassword: sqlAdminPass
-    prefix: prefix
-    suffix: suffix
-    location: location
-    tags: tags
-  }
-}
-
-module sqlServerDbDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/database/sqldb:v1' = {
-  name: 'sqlServerDbDeploy'
-  params: {
-    databaseName: 'AboutDb'
-    useFree: false
-    sqlServerResourceName: sqlServerDeploy.outputs.resourceName
-    location: location
-    tags: tags
-  }
-}
-
-module appServicePlanDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/app-service-plan:v1' = {
+module appServicePlanDeploy 'br:devacrlvsharedweu.azurecr.io/bicep/modules/web/app-service-plan:v1' = {
   name: 'appServicePlanDeploy'
   params: {  
     location: location
@@ -101,7 +64,7 @@ module appServicePlanDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/app
   }
 }
 
-module appServiceDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/app-service:v1' = {
+module appServiceDeploy 'br:devacrlvsharedweu.azurecr.io/bicep/modules/web/app-service:v1' = {
   name: 'appServiceDeploy'
   params: {
     appServicePlanId: appServicePlanDeploy.outputs.resourceId
@@ -121,7 +84,7 @@ module appServiceDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/app-ser
   }
 }
 
-module staticWebAppDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/static-web-app:v1' = {
+module staticWebAppDeploy 'br:devacrlvsharedweu.azurecr.io/bicep/modules/web/static-web-app:v1' = {
   name: 'staticWebAppDeploy'
   params: {
     shortName: ''
@@ -132,7 +95,7 @@ module staticWebAppDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/stati
   }
 }
 
-// module appConfigDeploy_Open 'br:devacrsharedweu.azurecr.io/bicep/modules/integration/app-config:v1' = {
+// module appConfigDeploy_Open 'br:devacrlvsharedweu.azurecr.io/bicep/modules/integration/app-config:v1' = {
 //   name: 'appConfigDeploy_Open'
 //   scope: resourceGroup(sharedRgName)
 //   params: {
@@ -144,7 +107,7 @@ module staticWebAppDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/stati
 //   }
 // }
 
-// module appConfigEntry1 'br:devacrsharedweu.azurecr.io/bicep/modules/integration/app-config-entry:v1' = {
+// module appConfigEntry1 'br:devacrlvsharedweu.azurecr.io/bicep/modules/integration/app-config-entry:v1' = {
 //   name: 'appConfigEntry1'
 //   scope: resourceGroup(sharedRgName)
 //   dependsOn: [appConfigDeploy_Open]
@@ -156,7 +119,7 @@ module staticWebAppDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/stati
 //   }
 // }
 
-// module appConfigDeploy_Close 'br:devacrsharedweu.azurecr.io/bicep/modules/integration/app-config:v1' = {
+// module appConfigDeploy_Close 'br:devacrlvsharedweu.azurecr.io/bicep/modules/integration/app-config:v1' = {
 //   name: 'appConfigDeploy_Close'
 //   scope: resourceGroup(sharedRgName)
 //   dependsOn: [appConfigEntry1]
@@ -172,7 +135,7 @@ module staticWebAppDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/web/stati
 // -----------------------------------------------------------------------------
 // Role Assignments
 // -----------------------------------------------------------------------------
-module appServiceSharedAppConfigReaderDeploy 'br:devacrsharedweu.azurecr.io/bicep/modules/security/sp-assign-rg-role:v1' = {
+module appServiceSharedAppConfigReaderDeploy 'br:devacrlvsharedweu.azurecr.io/bicep/modules/security/sp-assign-rg-role:v1' = {
   name: 'appServiceSharedAppConfigReaderDeploy'
   params: {
     role: 'App Configuration Data Reader'
