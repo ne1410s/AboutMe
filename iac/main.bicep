@@ -68,7 +68,7 @@ module appServiceDeploy 'br:devacrlvsharedweu.azurecr.io/bicep/modules/web/app-s
   name: 'appServiceDeploy'
   params: {
     appServicePlanId: appServicePlanDeploy.outputs.resourceId
-    shortName: ''
+    shortName: 'my'
     appSettings: [
       { name: 'ASPNETCORE_ENVIRONMENT', value: prefix }
     ]
