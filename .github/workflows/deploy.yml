@@ -18,6 +18,7 @@ on:
 env:
   ENV_PREFIX: ${{ inputs.ci_call != true && inputs.environment || secrets.AZURE_CI_PREFIX }}
   MAP_NAME: ${{ inputs.ci_call != true && 'deployment_map' || 'deployment_map_ci' }}
+  FRONT_END_DOMAIN: me.ne1410s.co.uk
 jobs:
   check_delivery:
     runs-on: ubuntu-latest
@@ -101,6 +102,7 @@ jobs:
         template: extract/iac/bicep/main.bicep
         parameters:
           sqlConnection="${{ secrets.AZURE_SQL_CONN }}"
+          frontEndCustomDomain="${{ env.FRONT_END_DOMAIN }}"
     - name: Deployable iac/bicep - group assignments
       if: steps.deploy_iac.outcome == 'success'
       run: echo "appService principalId - ${{ steps.deploy_iac.outputs.appServicePrincipalId }}"
