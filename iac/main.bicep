@@ -5,6 +5,9 @@
 @secure()
 param sqlConnection string
 
+@description('Custom domain name for the front-end application.')
+param frontEndCustomDomain string = ''
+
 @secure()
 @description('The app config endpoint. If not supplied, uri is built for the "shared" workload.')
 param appConfigEndpoint string = ''
@@ -87,6 +90,7 @@ module appServiceDeploy 'br:devacrlvsharedweu.azurecr.io/bicep/modules/web/app-s
 module staticWebAppDeploy 'br:devacrlvsharedweu.azurecr.io/bicep/modules/web/static-web-app:v1' = {
   name: 'staticWebAppDeploy'
   params: {
+    customDomainName: frontEndCustomDomain
     shortName: ''
     location: location
     prefix: prefix
