@@ -16,12 +16,12 @@ jobs:
     needs: call_test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Generate iac archive (bicep)
       run: mkdir -p ./drop/deliverable/iac && tar cfz $_/bicep.tar.gz -C ./iac .
     - uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     - name: Add local packages source
       env:
         READ_REPO_PACKAGES: ${{ secrets.READ_REPO_PACKAGES }}
@@ -29,7 +29,7 @@ jobs:
     - name: Restore tools
       working-directory: ./source
       run: dotnet tool restore
-      
+
     - name: Publish source (api)
       run: dotnet build ./source/AboutMe.Api -c Release -o '${{ runner.temp }}/api'
     - name: Generate source archive (api)
@@ -39,15 +39,15 @@ jobs:
       working-directory: ./source
       run: mkdir -p '${{ runner.temp }}/db' && dotnet ef migrations bundle -p AboutMe.Data -s AboutMe.Api -o $_/efbundle
     - name: Create SHA from source files (db)
-      run: | 
+      run: |
         shaSource=$(sha256sum <(find ./source/*.Data/Migrations -type f -exec sha256sum {} +) | cut -b 1-64)
         echo $shaSource > '${{ runner.temp }}/db/sha.txt'
     - name: Generate db archive (db)
       run: mkdir -p ./drop/deliverable/source && tar cfz $_/db.tar.gz -C '${{ runner.temp }}/db' .
 
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 22
     - name: Install and build
       working-directory: ./source/AboutMe.Web
       run: npm ci && npx ng build -c production --output-path '${{ runner.temp }}/ui'
@@ -55,7 +55,7 @@ jobs:
       run: mkdir -p ./drop/deliverable/source && tar cfz $_/ui.tar.gz -C '${{ runner.temp }}/ui' .
 
     - name: Upload deliverables
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: delivery
         path: ${{ github.workspace }}/drop/deliverable
