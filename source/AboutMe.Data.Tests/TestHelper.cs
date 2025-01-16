@@ -6,12 +6,12 @@ namespace AboutMe.Data.Tests;
 
 using Microsoft.EntityFrameworkCore;
 
-public static class TestHelper
+internal static class TestHelper
 {
     public static AboutMeContext GetDb(string? connectionId = null)
     {
         var optsBuilder = new DbContextOptionsBuilder<AboutMeContext>();
-        optsBuilder.UseInMemoryDatabase(connectionId ?? Guid.NewGuid().ToString());
+        _ = optsBuilder.UseInMemoryDatabase(connectionId ?? Guid.NewGuid().ToString());
         return new AboutMeContext(optsBuilder.Options);
     }
 }

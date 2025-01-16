@@ -22,6 +22,6 @@ public class ForecastModelTests
         var actual = new ForecastModel(centigrade, string.Empty);
 
         // Assert
-        actual.TemperatureF.Should().Be(expectedConversionF);
+        actual.TemperatureF.ShouldBe(expectedConversionF);
     }
 }

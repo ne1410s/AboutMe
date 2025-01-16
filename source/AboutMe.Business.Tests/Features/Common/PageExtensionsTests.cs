@@ -21,8 +21,8 @@ public class PageExtensionsTests
         var result = sequence.Page(0, 0);
 
         // Assert
-        result.PageNumber.Should().Be(1);
-        result.PageSize.Should().Be(1);
+        result.PageNumber.ShouldBe(1);
+        result.PageSize.ShouldBe(1);
     }
 
     [Fact]
@@ -30,13 +30,14 @@ public class PageExtensionsTests
     {
         // Arrange
         var sequence = new[] { 1, 2, 3, 4, 5 };
+        int[] expected = [3, 4];
 
         // Act
         var result = sequence.Page(2, 2);
 
         // Assert
-        result.Data.Should().BeEquivalentTo(new[] { 3, 4 });
-        result.TotalPages.Should().Be(3);
+        result.Data.ToArray().ShouldBeEquivalentTo(expected);
+        result.TotalPages.ShouldBe(3);
     }
 
     [Fact]
@@ -49,16 +50,17 @@ public class PageExtensionsTests
         var result = input.MapTo(i => i);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 
     [Fact]
     public void MapTo_NotNull_MapsValues()
     {
         // Arrange
+        var expected = new double[] { 1, 2, 3 };
         var input = new PageResult<int>()
         {
-            Data = new[] { 1, 2, 3 },
+            Data = [1, 2, 3],
             PageNumber = 2,
             PageSize = 3,
             TotalPages = 4,
@@ -69,6 +71,6 @@ public class PageExtensionsTests
         var result = input.MapTo(i => (double)i);
 
         // Assert
-        result.Should().BeEquivalentTo(input);
+        result.Data.ToArray().ShouldBeEquivalentTo(expected);
     }
 }

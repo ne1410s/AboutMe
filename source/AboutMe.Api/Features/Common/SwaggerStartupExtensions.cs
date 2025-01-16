@@ -10,7 +10,7 @@ using FluentErrors.Extensions;
 /// <summary>
 /// Extensions for configuring Swagger at startup.
 /// </summary>
-public static class SwaggerStartupExtensions
+internal static class SwaggerStartupExtensions
 {
     /// <summary>
     /// Adds the Swagger feature.
@@ -38,12 +38,12 @@ public static class SwaggerStartupExtensions
     public static IApplicationBuilder UseSwaggerFeature(
         this WebApplication app)
     {
-        app.MustExist();
-        var env = app.Environment.EnvironmentName.ToLower();
+        _ = app.MustExist();
+        var env = app.Environment.EnvironmentName.ToLower(System.Globalization.CultureInfo.CurrentCulture);
         if (env == "local")
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            _ = app.UseSwagger();
+            _ = app.UseSwaggerUI();
         }
 
         return app;
