@@ -11,11 +11,12 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/aboutme",
+            "outputPath": {
+              "base": "dist/aboutme"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/env.js", "src/favicon.ico", "src/assets", "src/routes.json"],
@@ -23,7 +24,8 @@
             "scripts": [
               "node_modules/@ne1410s/menu/dist/ne14_menu.umd.min.js",
               "node_modules/@ne1410s/popup/dist/ne14_pop.umd.min.js"
-            ]
+            ],
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
@@ -42,9 +44,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
