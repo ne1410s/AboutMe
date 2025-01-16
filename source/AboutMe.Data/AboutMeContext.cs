@@ -30,12 +30,12 @@ public class AboutMeContext : DbContext
     /// <inheritdoc/>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.MustExist();
+        _ = modelBuilder.MustExist();
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ApplyConfiguration(new ForecastEntityConfig());
+        _ = modelBuilder.ApplyConfiguration(new ForecastEntityConfig());
 
-        modelBuilder.Entity<ForecastModel>().HasData(
+        _ = modelBuilder.Entity<ForecastModel>().HasData(
             new { ForecastId = 1, TemperatureC = 28d, Description = "Balmy" });
     }
 }

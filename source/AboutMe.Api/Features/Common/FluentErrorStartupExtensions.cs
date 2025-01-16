@@ -57,7 +57,7 @@ internal static class FluentErrorStartupExtensions
 /// Initializes a new instance of the <see cref="FluentErrorHandlingMiddleware"/> class.
 /// </remarks>
 /// <param name="next">The request delegate.</param>
-internal class FluentErrorHandlingMiddleware(RequestDelegate next)
+internal sealed class FluentErrorHandlingMiddleware(RequestDelegate next)
 {
     private readonly RequestDelegate next = next;
 
