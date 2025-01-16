@@ -12,10 +12,10 @@ jobs:
       run:
         working-directory: ./source/AboutMe.Web
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 22
     - name: Install (for ci agent)
       run: npm ci
     - name: Audit main dependencies (>= high)
@@ -35,10 +35,10 @@ jobs:
       run:
         working-directory: ./source
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     - name: Add local packages source
       env:
         READ_REPO_PACKAGES: ${{ secrets.READ_REPO_PACKAGES }}
@@ -74,7 +74,7 @@ jobs:
       run: dotnet stryker -O ${{ github.workspace }}/drop
     - name: Drop artifact - reports
       if: success() || steps.check_coverage.outcome == 'failure' || steps.gen_mutation.outcome == 'failure'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: reports
         path: ${{ github.workspace }}/drop/reports

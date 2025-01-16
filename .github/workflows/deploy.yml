@@ -36,7 +36,7 @@ jobs:
         path: deliverable
     - name: Re-up delivery from catalog -> current
       if: inputs.ci_call != true
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: delivery
         path: deliverable
@@ -52,7 +52,7 @@ jobs:
         az config set bicep.use_binary_from_path=false
         az bicep upgrade
     - name: Get deliverables
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: delivery
         path: deliverable
@@ -166,7 +166,7 @@ jobs:
         script: |
           const fs = require('fs');
           const envFilePath = `${process.env.GITHUB_WORKSPACE}/extract/source/ui/env.js`;
-          const current = fs.readFileSync(envFilePath, { encoding: 'utf8' });  
+          const current = fs.readFileSync(envFilePath, { encoding: 'utf8' });
           const updated = current.replace('https://localhost:7150', '${{ secrets.API_BASE_URL }}');
           fs.writeFileSync(envFilePath, Buffer.from(updated));
     - name: Deployable source/ui - publish (if changed)
@@ -192,7 +192,7 @@ jobs:
           }};
           fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/deployment_map.json`, Buffer.from(JSON.stringify(merged)));
     - name: Upload deployment map
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ env.MAP_NAME }}
-        path: deployment_map.json 
+        path: deployment_map.json

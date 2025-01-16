@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { ImageView } from '../../shared/models/image-view.interface';
 
 @Component({
-  selector: 'app-about',
-  templateUrl: './about.component.html',
-  styleUrls: ['./about.component.scss'],
+    selector: 'app-about',
+    templateUrl: './about.component.html',
+    styleUrls: ['./about.component.scss'],
+    standalone: false
 })
 export class AboutComponent {
   teaserImages: ImageView[] = [
