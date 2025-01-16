@@ -9,7 +9,7 @@ using FluentErrors.Extensions;
 /// <summary>
 /// Extensions for configuring cross-origin resource sharing at startup.
 /// </summary>
-public static class CorsStartupExtensions
+internal static class CorsStartupExtensions
 {
     /// <summary>
     /// Adds the CORS feature.
@@ -21,9 +21,9 @@ public static class CorsStartupExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        configuration.MustExist();
-        var corsHeaders = configuration.GetSection("Cors:Headers").Get<string[]>();
-        var corsOrigins = configuration.GetSection("Cors:Origins").Get<string[]>();
+        _ = configuration.MustExist();
+        var corsHeaders = configuration.GetSection("Cors:Headers").Get<string[]>()!;
+        var corsOrigins = configuration.GetSection("Cors:Origins").Get<string[]>()!;
         return services.AddCors(o => o
             .AddDefaultPolicy(builder => builder
                 .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
@@ -38,8 +38,5 @@ public static class CorsStartupExtensions
     /// <param name="app">The app builder.</param>
     /// <returns>The same app builder.</returns>
     public static IApplicationBuilder UseCorsFeature(
-        this IApplicationBuilder app)
-    {
-        return app.UseCors();
-    }
+        this IApplicationBuilder app) => app.UseCors();
 }

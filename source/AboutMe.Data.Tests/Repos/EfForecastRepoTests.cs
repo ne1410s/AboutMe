@@ -16,16 +16,16 @@ public class EfForecastRepoTests
     public async Task GetItem_WhenCalled_ReturnsExpected()
     {
         // Arrange
-        var db = TestHelper.GetDb();
+        await using var db = TestHelper.GetDb();
         var expected = new ForecastModel(5, "Cold");
         db.Forecasts.AddRange(new(100, "Hot"), expected);
-        db.SaveChanges();
+        _ = await db.SaveChangesAsync();
         var sut = new EfForecastRepo(db);
 
         // Act
         var result = await sut.GetItem();
 
         // Assert
-        result.Should().Be(expected);
+        result.ShouldBe(expected);
     }
 }

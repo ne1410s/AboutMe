@@ -21,7 +21,7 @@ public class ForecastsControllerTests
         // Arrange
         var mockResult = new ForecastModel(5, "Sunny");
         var mockService = new Mock<IForecastService>();
-        mockService.Setup(m => m.GetItem()).ReturnsAsync(mockResult);
+        _ = mockService.Setup(m => m.GetItem()).ReturnsAsync(mockResult);
         var sut = new ForecastsController(mockService.Object);
         var expected = new ForecastWebModel(expectedTemp, mockResult.Description);
 
@@ -29,6 +29,6 @@ public class ForecastsControllerTests
         var result = await sut.Get(empirical);
 
         // Assert
-        result.Should().Be(expected);
+        result.ShouldBe(expected);
     }
 }

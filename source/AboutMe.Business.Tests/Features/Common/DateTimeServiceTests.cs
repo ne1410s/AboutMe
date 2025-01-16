@@ -2,9 +2,9 @@
 // Copyright (c) ne1410s. All rights reserved.
 // </copyright>
 
-using AboutMe.Business.Features.Common;
-
 namespace AboutMe.Business.tests.Features.Common;
+
+using AboutMe.Business.Features.Common;
 
 /// <summary>
 /// Tests for the <see cref="DateTimeService"/>.
@@ -18,9 +18,10 @@ public class DateTimeServiceTests
         var sut = new DateTimeService();
 
         // Act
-        var result = sut.OffsetNow();
+        var result = sut.OffsetNow().ToUnixTimeSeconds();
+        var expected = DateTimeOffset.Now.ToUnixTimeSeconds();
 
         // Assert
-        result.Should().BeCloseTo(DateTime.Now, TimeSpan.FromSeconds(5));
+        result.ShouldBeInRange(expected - 5, expected + 5);
     }
 }
