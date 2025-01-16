@@ -29,7 +29,7 @@ var workload = split(resourceGroup().name, '-')[2]
 var locationShort = split(resourceGroup().name, '-')[3]
 
 @description('Amalgam of the workload and the (short) location name.')
-var suffix = length('${workload}-${locationShort}') < 3 ? 'xyz' : '${workload}-${locationShort}'
+var suffix = '${workload}-${locationShort}'
 
 @description('Amalgam of the shared workload and the (short) location name.')
 var sharedSuffix = 'lvshared-${locationShort}'
@@ -52,6 +52,7 @@ module appInsightsDeploy 'br:devacrlvsharedweu.azurecr.io/bicep/modules/diagnost
   params: {
     location: location
     prefix: prefix
+    #disable-next-line BCP334
     suffix: suffix
     tags: tags
   }
@@ -62,6 +63,7 @@ module appServicePlanDeploy 'br:devacrlvsharedweu.azurecr.io/bicep/modules/web/a
   params: {  
     location: location
     prefix: prefix
+    #disable-next-line BCP334
     suffix: suffix
     tags: tags   
   }
@@ -82,6 +84,7 @@ module appServiceDeploy 'br:devacrlvsharedweu.azurecr.io/bicep/modules/web/app-s
     ]
     location: location
     prefix: prefix
+    #disable-next-line BCP334
     suffix: suffix
     tags: tags
   }
@@ -94,6 +97,7 @@ module staticWebAppDeploy 'br:devacrlvsharedweu.azurecr.io/bicep/modules/web/sta
     shortName: ''
     location: location
     prefix: prefix
+    #disable-next-line BCP334
     suffix: suffix
     tags: tags
   }
