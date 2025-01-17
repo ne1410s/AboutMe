@@ -165,7 +165,7 @@ jobs:
       with:
         script: |
           const fs = require('fs');
-          const envFilePath = `${process.env.GITHUB_WORKSPACE}/extract/source/ui/aboutme/browser/env.js`;
+          const envFilePath = `${process.env.GITHUB_WORKSPACE}/extract/source/ui/browser/env.js`;
           const current = fs.readFileSync(envFilePath, { encoding: 'utf8' });
           const updated = current.replace('https://localhost:7150', '${{ secrets.API_BASE_URL }}');
           fs.writeFileSync(envFilePath, Buffer.from(updated));
@@ -175,7 +175,7 @@ jobs:
       with:
         azure_static_web_apps_api_token: ${{ env.DEPLOY_TOKEN }}
         action: upload
-        app_location: extract/source/ui/aboutme/browser
+        app_location: extract/source/ui/browser
         output_location: ''
         skip_app_build: true
 
