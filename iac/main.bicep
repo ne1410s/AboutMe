@@ -72,7 +72,7 @@ module appServiceDeploy 'br:devacrlvsharedweu.azurecr.io/bicep/modules/web/app-s
   params: {
     appServicePlanId: appServicePlanDeploy.outputs.resourceId
     shortName: 'my'
-    runtimeIdent: 'DOTNETCORE:8.0'
+    runtimeIdent: 'DOTNETCORE|8.0'
     appSettings: [
       { name: 'ASPNETCORE_ENVIRONMENT', value: prefix }
     ]
